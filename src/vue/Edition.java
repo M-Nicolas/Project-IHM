@@ -101,7 +101,6 @@ public class Edition extends Fenetre{
             }
         });
         
-        
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
         constraining(affiche, titre, realisateur, acteurs, genre, duree, resume);

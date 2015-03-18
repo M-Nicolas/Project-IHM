@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -57,6 +59,40 @@ public class Creation extends Fenetre{
         //act.setListData((String[]) control.getAllActor().toArray());
         String[] actorsNames = control.getAllActor();
         act.setListData(actorsNames);
+        MouseAdapter mouseAdapt = new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(e.getSource() == aff && aff.getText().equals("image/edge.jpg")){
+                    aff.setText("");
+                }
+                if(e.getSource() == tit && tit.getText().equals("Titre")){
+                    tit.setText("");
+                }
+                if(e.getSource() == reali && reali.getText().equals("réalisateur")){
+                    reali.setText("");
+                }
+                if(e.getSource() == actor && actor.getText().equals("acteur")){
+                    actor.setText("");
+                }
+                if(e.getSource() == gen && gen.getText().equals("Genre")){
+                    gen.setText("");
+                }
+                if (e.getSource() == res && res.getText().equals("Résumé")){
+                    res.setText("");
+                }
+                if(e.getSource() == dur && dur.getText().equals("durée")){
+                    dur.setText("");
+                }
+            }
+        };
+
+        aff.addMouseListener(mouseAdapt);
+        tit.addMouseListener(mouseAdapt);
+        reali.addMouseListener(mouseAdapt);
+        actor.addMouseListener(mouseAdapt);
+        gen.addMouseListener(mouseAdapt);
+        res.addMouseListener(mouseAdapt);
+        dur.addMouseListener(mouseAdapt);
         
         scrollPane.add(act);
         scrollPane.setPreferredSize(new Dimension(150, 100));
