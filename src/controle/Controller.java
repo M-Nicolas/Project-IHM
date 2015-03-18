@@ -25,6 +25,10 @@ public class Controller {
         manager = new Manager();
     }
     
+    public Controller() {
+    	manager = new Manager();
+    }
+    
     /**
      * Méthode recherche permettant de chercher un film par titre
      * @param text
@@ -47,6 +51,16 @@ public class Controller {
     public void resultOfSearch(String title) {
         Film film = getFilm(title);
         new Affichage(film);
+    }
+    
+    public String[] getAllActor(){
+    	ArrayList<Actor> lstAct = manager.getAllActors();
+    	String[] lstRetour=new String[lstAct.size()];
+    	for (int i=0;i<lstAct.size()-1;i++) {
+			lstRetour[i] = lstAct.get(i).getFirstname()+"-"+lstAct.get(i).getLastname();
+			i++;
+		}
+    	return lstRetour;
     }
     
     public void create() {

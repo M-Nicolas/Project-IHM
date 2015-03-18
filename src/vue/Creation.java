@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,10 +16,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.ActionMapUIResource;
 
 import controle.Controller;
 
 public class Creation extends Fenetre{
+	Controller control = new Controller();
     JFrame frame = new JFrame();
     JScrollPane scroll = new JScrollPane();
     JPanel paneglob = new JPanel();
@@ -51,6 +54,10 @@ public class Creation extends Fenetre{
         JLabel resume = new JLabel("Résumé :");
         paneglob.setLayout(layout);
         scroll.add(res);
+        //act.setListData((String[]) control.getAllActor().toArray());
+        String[] actorsNames = control.getAllActor();
+        act.setListData(actorsNames);
+        
         scrollPane.add(act);
         scrollPane.setPreferredSize(new Dimension(150, 100));
         
@@ -131,10 +138,13 @@ public class Creation extends Fenetre{
         	/*
         	JLabel affiche, JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume*/
-        	
         	System.out.println(tit.getText());
-        	
-        	aff.getText();
+        	System.out.println(aff.getText());
+        	System.out.println(reali.getText());
+        	//System.out.println();act
+        	System.out.println(gen.getText());
+        	System.out.println(dur.getText());
+        	System.out.println(res.getText());
         	
         	//Controller.
         }
