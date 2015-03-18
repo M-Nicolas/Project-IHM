@@ -1,3 +1,9 @@
 *.class
 .gitignore
 .idea
+/bin
+.classpath
+.project
+libraries
+resources
+*~
