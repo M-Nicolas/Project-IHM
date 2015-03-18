@@ -19,5 +19,4 @@ public class Launch {
         
         rechercher.setController(controller);
     }
-
 }
