@@ -56,9 +56,9 @@ public class Controller {
     public String[] getAllActor(){
     	ArrayList<Actor> lstAct = manager.getAllActors();
     	String[] lstRetour=new String[lstAct.size()];
-    	for (int i=0;i<lstAct.size()-1;i++) {
-			lstRetour[i] = lstAct.get(i).getFirstname()+"-"+lstAct.get(i).getLastname();
-			i++;
+    	for (int i=0;i<lstAct.size();i++) {
+			lstRetour[i] = lstAct.get(i).getFirstname()+
+			        " "+lstAct.get(i).getLastname();
 		}
     	return lstRetour;
     }
