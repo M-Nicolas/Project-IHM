@@ -2,6 +2,8 @@ package vue;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,6 +51,56 @@ public class Edition extends Fenetre{
         scroll.add(res);
         scrollPane.add(act);
         scrollPane.setPreferredSize(new Dimension(150, 100));
+        
+        aff.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(aff.getText().equals("image/edge.jpg")){
+                    aff.setText("");
+                }
+            }
+        });
+        tit.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(tit.getText().equals("Titre")){
+                    tit.setText("");
+                }
+            }
+        });
+        reali.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(reali.getText().equals("réalisateur")){
+                    reali.setText("");
+                }
+            }
+        });
+        actor.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(actor.getText().equals("acteur")){
+                    actor.setText("");
+                }
+            }
+        });
+        gen.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(gen.getText().equals("Genre")){
+                    gen.setText("");
+                }
+            }
+        });
+        dur.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(dur.getText().equals("durée")){
+                    dur.setText("");
+                }
+            }
+        });
+        
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
