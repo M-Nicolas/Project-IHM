@@ -17,7 +17,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 import controle.Controller;
-
+import controle.Launch;
 import modele.Film;
 
 public class Affichage extends Fenetre{
@@ -33,12 +33,16 @@ public class Affichage extends Fenetre{
     private JList<String> gen;
     private JLabel dur;
     private JTextArea resume;
+    private Controller controller;
     
     
     /**
      * Constructeur de la classe Affichage qui crée la frame demandé.
      */
     public Affichage(Film film) {
+    	
+    	controller = Launch.getController();
+    	
         paneglob.setLayout(new BorderLayout());
         panemiddle.setLayout(layout);
         
@@ -127,19 +131,19 @@ public class Affichage extends Fenetre{
     
     private void initialiseFilm(Film film) {
         
-        affiche = new JLabel(new ImageIcon(Controller.getURL(film)));
+        affiche = new JLabel(new ImageIcon(controller.getURL(film)));
         
-        titre = new JLabel(Controller.getName(film));
+        titre = new JLabel(controller.getName(film));
         
-        reali = new JLabel(Controller.getDirector(film));
+        reali = new JLabel(controller.getDirector(film));
         
-        act = new JList<String>(Controller.getActorList(film));
+        act = new JList<String>(controller.getActorList(film));
         
-        gen = new JList<String>(Controller.getGenreList(film));
+        gen = new JList<String>(controller.getGenreList(film));
         
         
-        dur = new JLabel(Controller.getFilmLength(film));
+        dur = new JLabel(controller.getFilmLength(film));
         
-        resume = new JTextArea(Controller.getSynopsis(film));
+        resume = new JTextArea(controller.getSynopsis(film));
     }
 }

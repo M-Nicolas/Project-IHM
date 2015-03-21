@@ -7,6 +7,12 @@ import vue.Rechercher;
 
 public class Launch {
 
+	private static Controller controller;
+	
+	public static Controller getController() {
+		return controller;
+	}
+	
     /**
      * @param args
      */
@@ -14,9 +20,7 @@ public class Launch {
         Rechercher rechercher = new Rechercher();
         ArrayList<Fenetre> liste = new ArrayList<Fenetre>();
         liste.add(rechercher);
-        
-        Controller controller = new Controller(liste);
-        
+        controller = new Controller(liste);
         rechercher.setController(controller);
     }
 }

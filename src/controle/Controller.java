@@ -83,7 +83,7 @@ public class Controller {
      * @param film
      * @return URL
      */
-    public static String getURL(Film film) {
+    public String getURL(Film film) {
         String name = film.getTitle();
         char[] affi2 = name.toCharArray();
         String URL = "";
@@ -101,7 +101,7 @@ public class Controller {
      * @param film
      * @return Title
      */
-    public static String getName(Film film) {
+    public String getName(Film film) {
         return film.getTitle();
     }
     
@@ -110,7 +110,7 @@ public class Controller {
      * @param film
      * @return Director Name
      */
-    public static String getDirector(Film film) {
+    public String getDirector(Film film) {
         Director director = film.getDirector();
         return director.getFirstname() + " " +director.getLastname();
     }
@@ -120,7 +120,7 @@ public class Controller {
      * @param film
      * @return Array with the actors names
      */
-    public static String[] getActorList(Film film) {
+    public String[] getActorList(Film film) {
         ArrayList<Actor> liste = film.getActors();
         String[] list = new String[liste.size()];
         for (int i = 0; i<liste.size(); i++) {
@@ -135,7 +135,7 @@ public class Controller {
      * @param film
      * @return Array with the Genres
      */
-    public static String[] getGenreList(Film film) {
+    public String[] getGenreList(Film film) {
         ArrayList<Genre> genreList = film.getGenres();
         String[] list = new String[genreList.size()];
         for (int i = 0; i<genreList.size(); i++) {
@@ -149,7 +149,7 @@ public class Controller {
      * @param film
      * @return film length
      */
-    public static String getFilmLength(Film film) {
+    public String getFilmLength(Film film) {
         int duree = film.getRuntime();
         return (duree/60)+"h "+(duree - (duree/60)*60);
     }
@@ -159,12 +159,31 @@ public class Controller {
      * @param film
      * @return film's synopsis
      */
-    public static String getSynopsis(Film film) {
+    public String getSynopsis(Film film) {
         return film.getSynopsis();
     }
     
-    public static void CreerFilm(){
-    	
+    /*		System.out.println(tit.getText());
+        	System.out.println(aff.getText());
+        	System.out.println(reali.getText());
+        	String test = act.getSelectedValue();
+        	System.out.println(test);
+        	System.out.println(gen.getText());
+        	System.out.println(dur.getText());
+        	System.out.println(res.getText());*/
+    public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,String genre,int duree,String resume){
+    	//public Film(String id, String title, Director director, ArrayList<Actor> actors, ArrayList<Genre> genres, int runtime, String poster, String synopsis) {
+    	ArrayList<Director> d = manager.getAllDirectors();
+    	Director dir = d.get(0);
+    	ArrayList<Actor> a = manager.getAllActors();
+    	ArrayList<Genre> g = manager.getAllGenres();
+    	Film newfilm = new Film("", titre, dir, a, g, duree, affiche, resume);
+    	if(manager.addFilm(newfilm)){
+    		System.out.println("##AJOUT FILM OK##");
+    	}
+    	else{
+    		System.out.println("##FAIL##");
+    	}
     }
 }
 

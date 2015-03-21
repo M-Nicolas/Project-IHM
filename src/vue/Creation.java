@@ -21,9 +21,10 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.ActionMapUIResource;
 
 import controle.Controller;
+import controle.Launch;
 
 public class Creation extends Fenetre{
-	Controller control = new Controller();
+	Controller controller;
     JFrame frame = new JFrame();
     JScrollPane scroll = new JScrollPane();
     JPanel paneglob = new JPanel();
@@ -47,6 +48,9 @@ public class Creation extends Fenetre{
      * Constructeur de la classe Edition.
      */
     public Creation() {
+    	
+    	controller = Launch.getController();
+    	
         JLabel affiche = new JLabel("affiche");
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
@@ -57,7 +61,7 @@ public class Creation extends Fenetre{
         paneglob.setLayout(layout);
         scroll.add(res);
         //act.setListData((String[]) control.getAllActor().toArray());
-        String[] actorsNames = control.getAllActor();
+        String[] actorsNames = controller.getAllActor();
         act.setListData(actorsNames);
         MouseAdapter mouseAdapt = new MouseAdapter(){
             @Override
@@ -174,14 +178,23 @@ public class Creation extends Fenetre{
         	/*
         	JLabel affiche, JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume*/
+        	String titre = tit.getText();
         	System.out.println(tit.getText());
+        	String affiche = aff.getText();
         	System.out.println(aff.getText());
+        	String realisateur =reali.getText();
         	System.out.println(reali.getText());
+        	String test = act.getSelectedValue();
+        	System.out.println(test);
+        	//for(int i = 0 ; i<;i++){
         	//System.out.println();act
         	System.out.println(gen.getText());
         	System.out.println(dur.getText());
+        	int duree = 120;//Integer.parseInt(dur.getText());
         	System.out.println(res.getText());
-        	
+        	ArrayList<String> acts = new ArrayList<String>();
+        	acts.add("test");
+        	controller.CreerFilm(titre, affiche, realisateur, acts, gen.getText(), duree, res.getText());
         	//Controller.
         }
     }
