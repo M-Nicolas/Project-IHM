@@ -225,31 +225,42 @@ public class Creation extends Fenetre{
         	if (e.getSource() == add) {
         	    //récupére les informations de la première liste :
         	    ListModel<String> model = act.getModel();
-                int selectedIndex = act.getSelectedIndex();
+                int[] selectedIndex = act.getSelectedIndices();
                 
                 //les ajoute dans la seconde :
-                actID2.add(actID.get(selectedIndex));
+                for (int i = 0; i<selectedIndex.length; i ++) {
+                    actID2.add(actID.get(selectedIndex[i]));
+                }
                 
                 //Création d'un tableau qui remplacera le précédent de la
                 //seconde liste:
                 ListModel<String> model2 = act2.getModel();
-                String[] list = new String[model2.getSize() + 1];
+                String[] list = new String[model2.getSize() + selectedIndex.length];
                 for (int i = 0; i<model2.getSize(); i++) {
                     list[i] = model2.getElementAt(i);
                 }
-                //ajout du nouvel élément :
-                list[model2.getSize()] = model.getElementAt(selectedIndex);
+                //ajout des nouvel élément :
+                for (int i = 0; i<selectedIndex.length; i ++) {
+                    list[model2.getSize()+i] = model.getElementAt(selectedIndex[i]);
+                }
                 
                 //suppression de la première liste :
                 try {
                     actID.remove(selectedIndex);
-                    String[] liste = new String[model.getSize()];
+                    String[] liste = new String[model.getSize()
+                                                -selectedIndex.length];
                     int j = 0;
                     for (int i = 0; i<model.getSize(); i++) {
-                        if (i != selectedIndex) {
+                        boolean passed = true;
+                        for (int k = 0; k < selectedIndex.length; k++) {
+                            if (i == selectedIndex[k]) {
+                                passed = false;
+                            }
+                        }
+                        if (passed == true) {
                             liste[j] = model.getElementAt(i);
                             j++;
-                        } else {}
+                        }
                     }
                     act.setListData(liste);
                 } catch (IndexOutOfBoundsException e1) {}
@@ -260,35 +271,43 @@ public class Creation extends Fenetre{
         	if (e.getSource() == rm) {
         	    //recuppération de la liste et de l'indice :
         	    ListModel<String> model = act2.getModel();
-                int selectedIndex = act2.getSelectedIndex();
-                
-                //Suppréssion des éléments :
-                try {
-                    actID2.remove(selectedIndex);
-                    ListModel<String> model2 = act2.getModel();
-                    String[] list = new String[model2.getSize() + 1];
-                    int j = 0;
-                    for (int i = 0; i<model2.getSize(); i++) {
-                        if (i != selectedIndex) {
-                            list[j] = model2.getElementAt(i);
-                            j++;
-                        } else {}
-                    }
-                    act2.setListData(list);
-                } catch (IndexOutOfBoundsException e1) {}
+                int[] selectedIndex = act2.getSelectedIndices();
                 
                 //ajout des éléments dans la première liste :
-                actID.add(actID.get(selectedIndex));
+                for (int i = 0; i<selectedIndex.length; i++)
+                    actID.add(actID2.get(selectedIndex[i]));
                 
                 //Création d'un tableau qui remplacera le précédent de la
                 //seconde liste:
                 ListModel<String> model2 = act.getModel();
-                String[] list = new String[model2.getSize() + 1];
-                for (int i = 0; i<model2.getSize(); i++) {
+                String[] list = new String[model2.getSize() + selectedIndex.length];
+                for (int i = 0; i<model2.getSize(); i++)
                     list[i] = model2.getElementAt(i);
-                }
-                list[model2.getSize()-1] = model.getElementAt(selectedIndex);
+                
+                for (int i = 0; i<selectedIndex.length; i++)
+                    list[model2.getSize() + i] = model.getElementAt(selectedIndex[i]);
                 act.setListData(list);
+                
+                //Suppréssion des éléments :
+                try {
+                    actID2.remove(selectedIndex);
+                    String[] liste = new String[model.getSize()
+                                                -selectedIndex.length];
+                    int j = 0;
+                    for (int i = 0; i<model.getSize(); i++) {
+                        boolean passed = false;
+                        for (int k = 0; k < selectedIndex.length; k++) {
+                            if (i == selectedIndex[k]) {
+                                passed = true;
+                            }
+                        }
+                        if (passed == false) {
+                            liste[j] = model.getElementAt(i);
+                            j++;
+                        }
+                    }
+                    act2.setListData(liste);
+                } catch (IndexOutOfBoundsException e1) {}
         	}
         }
     }
