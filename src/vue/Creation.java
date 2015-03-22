@@ -243,7 +243,7 @@ public class Creation extends Fenetre{
                 //suppression de la première liste :
                 try {
                     actID.remove(selectedIndex);
-                    String[] liste = new String[model.getSize() + 1];
+                    String[] liste = new String[model.getSize()];
                     int j = 0;
                     for (int i = 0; i<model.getSize(); i++) {
                         if (i != selectedIndex) {
@@ -277,6 +277,18 @@ public class Creation extends Fenetre{
                     act2.setListData(list);
                 } catch (IndexOutOfBoundsException e1) {}
                 
+                //ajout des éléments dans la première liste :
+                actID.add(actID.get(selectedIndex));
+                
+                //Création d'un tableau qui remplacera le précédent de la
+                //seconde liste:
+                ListModel<String> model2 = act.getModel();
+                String[] list = new String[model2.getSize() + 1];
+                for (int i = 0; i<model2.getSize(); i++) {
+                    list[i] = model2.getElementAt(i);
+                }
+                list[model2.getSize()-1] = model.getElementAt(selectedIndex);
+                act.setListData(list);
         	}
         }
     }
