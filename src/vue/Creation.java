@@ -46,6 +46,7 @@ public class Creation extends Fenetre{
     private JList<String> act2 = new JList<String>();
     private ArrayList<String> actID2 = new ArrayList<String>();
     private JButton add = new JButton("ajouter");
+    private JButton rm = new JButton("enlever");
     private JTextField gen = new JTextField("Genre",15);
     private JTextField dur = new JTextField("durée", 15);
     private JTextArea res = new JTextArea("Résumé");
@@ -112,6 +113,7 @@ public class Creation extends Fenetre{
         CreateListener listener = new CreateListener();
         creer.addActionListener(listener);
         add.addActionListener(listener);
+        rm.addActionListener(listener);
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
@@ -174,13 +176,13 @@ public class Creation extends Fenetre{
         paneglob.add(scrollPane);
         paneglob.add(scrollPane2);
         paneglob.add(add);
+        paneglob.add(rm);
         paneglob.add(genre);
         paneglob.add(gen);
         paneglob.add(duree);
         paneglob.add(dur);
         paneglob.add(resume);
         res.setPreferredSize(new Dimension(150, 150));
-        scroll.add(res);
         paneglob.add(scroll);
         paneglob.add(creer);
     }
@@ -207,26 +209,44 @@ public class Creation extends Fenetre{
         	}
         	
         	if (e.getSource() == add) {
-        	    
         	    //récupére les informations de la première liste :
         	    ListModel<String> model = act.getModel();
                 int selectedIndex = act.getSelectedIndex();
                 
                 //les ajoute dans la seconde :
-                actID2.add( actID.get(selectedIndex));
+                actID2.add(actID.get(selectedIndex));
                 
                 //Création d'un tableau qui remplacera le précédent de la
                 //seconde liste:
                 ListModel<String> model2 = act2.getModel();
                 String[] list = new String[model2.getSize() + 1];
-                System.out.println("ici");
                 for (int i = 0; i<model2.getSize(); i++) {
-                    
                     list[i] = model2.getElementAt(i);
                 }
                 //ajout du nouvel élément :
                 list[model2.getSize()] = model.getElementAt(selectedIndex);
                 act2.setListData(list);
+        	}
+        	
+        	if (e.getSource() == rm) {
+        	    //recuppération de la liste et de l'indice :
+        	    ListModel<String> model = act2.getModel();
+                int selectedIndex = act2.getSelectedIndex();
+                
+                //Suppréssion des éléments :
+                try {
+                    actID2.remove(selectedIndex);
+                    ListModel<String> model2 = act2.getModel();
+                    String[] list = new String[model2.getSize() + 1];
+                    int j = 0;
+                    for (int i = 0; i<model2.getSize(); i++) {
+                        if (i != selectedIndex) {
+                            list[j] = model2.getElementAt(i);
+                            j++;
+                        } else {}
+                    }
+                    act2.setListData(list);
+                } catch (IndexOutOfBoundsException e1) {}
                 
         	}
         }
@@ -253,6 +273,8 @@ public class Creation extends Fenetre{
         layout.putConstraint(SpringLayout.NORTH, scrollPane,5,SpringLayout.SOUTH,reali);
         layout.putConstraint(SpringLayout.WEST, add,5,SpringLayout.EAST,scrollPane);
         layout.putConstraint(SpringLayout.NORTH, add,5,SpringLayout.SOUTH,realisateur);
+        layout.putConstraint(SpringLayout.WEST, rm,5,SpringLayout.EAST,scrollPane);
+        layout.putConstraint(SpringLayout.NORTH, rm,5,SpringLayout.SOUTH,add);
         layout.putConstraint(SpringLayout.WEST, scrollPane2, 5, SpringLayout.EAST, add);
         layout.putConstraint(SpringLayout.NORTH, scrollPane2,5,SpringLayout.SOUTH,realisateur);
         layout.putConstraint(SpringLayout.NORTH, genre,5,SpringLayout.SOUTH,scrollPane);
