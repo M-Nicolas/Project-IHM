@@ -1,8 +1,10 @@
 package vue;
 
+import java.awt.Checkbox;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -47,7 +49,7 @@ public class Creation extends Fenetre{
     private ArrayList<String> actID2 = new ArrayList<String>();
     private JButton add = new JButton("ajouter");
     private JButton rm = new JButton("enlever");
-    private JTextField gen = new JTextField("Genre",15);
+    private JPanel gen = new JPanel();
     private JTextField dur = new JTextField("durée", 15);
     private JTextArea res = new JTextArea("Résumé");
     private JButton creer = new JButton("Créer");
@@ -70,6 +72,7 @@ public class Creation extends Fenetre{
         paneglob.setLayout(layout);
         scroll.add(res);
         
+        
         String[] actorsNames = controller.getAllActor();
         act.setListData(actorsNames);
         actID = controller.getAllActorID();
@@ -85,9 +88,6 @@ public class Creation extends Fenetre{
                 }
                 if(e.getSource() == reali && reali.getText().equals("réalisateur")){
                     reali.setText("");
-                }
-                if(e.getSource() == gen && gen.getText().equals("Genre")){
-                    gen.setText("");
                 }
                 if (e.getSource() == res && res.getText().equals("Résumé")){
                     res.setText("");
@@ -114,6 +114,7 @@ public class Creation extends Fenetre{
         creer.addActionListener(listener);
         add.addActionListener(listener);
         rm.addActionListener(listener);
+        createGenrePanel();
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
@@ -126,6 +127,19 @@ public class Creation extends Fenetre{
         generateFrame();
     }
     
+    /**
+     * Création du panel de genres.
+     */
+    private void createGenrePanel() {
+        ArrayList<String> genres = controller.getAllGenre();
+        for (int i = 0; i<genres.size(); i++) {
+            Checkbox temporary = new Checkbox(genres.get(i));
+            temporary.setFocusable(true);
+            gen.add(temporary);
+            gen.setLayout(new GridLayout(5,4));
+        }
+    }
+
     /**
      * Met en forme les textes de la fenetre.
      * @param titre
@@ -200,12 +214,12 @@ public class Creation extends Fenetre{
                 System.out.println(test);
                 //for(int i = 0 ; i<;i++){
                 //System.out.println();act2
-                System.out.println(gen.getText());
+                //System.out.println(gen.getText());
                 System.out.println(dur.getText());
                 int duree = 120;
                 System.out.println(res.getText());
-                controller.CreerFilm(titre, affiche, realisateur,
-                        actID2, gen.getText(), duree, res.getText());
+                //controller.CreerFilm(titre, affiche, realisateur,
+                        //actID2, gen.getText(), duree, res.getText());
         	}
         	
         	if (e.getSource() == add) {
@@ -225,6 +239,21 @@ public class Creation extends Fenetre{
                 }
                 //ajout du nouvel élément :
                 list[model2.getSize()] = model.getElementAt(selectedIndex);
+                
+                //suppression de la première liste :
+                try {
+                    actID.remove(selectedIndex);
+                    String[] liste = new String[model.getSize() + 1];
+                    int j = 0;
+                    for (int i = 0; i<model.getSize(); i++) {
+                        if (i != selectedIndex) {
+                            liste[j] = model.getElementAt(i);
+                            j++;
+                        } else {}
+                    }
+                    act.setListData(liste);
+                } catch (IndexOutOfBoundsException e1) {}
+                
                 act2.setListData(list);
         	}
         	
@@ -296,7 +325,7 @@ public class Creation extends Fenetre{
      */
     private void generateFrame() {
         frame.setContentPane(paneglob);
-        frame.setMinimumSize(new Dimension(400, 500));
+        frame.setMinimumSize(new Dimension(600, 500));
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);

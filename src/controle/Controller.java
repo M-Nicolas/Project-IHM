@@ -187,6 +187,19 @@ public class Controller {
     }
     
     /**
+     * retourne une ArrayList de String décrivant les genres.
+     * @return
+     */
+    public ArrayList<String> getAllGenre() {
+        ArrayList<Genre> genres = manager.getAllGenres();
+        ArrayList<String> genres2 = new ArrayList<String>();
+        for (int i = 0; i<genres.size(); i++) {
+            genres2.add(genres.get(i).getLabelFr());
+        }
+        return genres2;
+    }
+    
+    /**
      * Création du film dans la base de données.
      * @param titre
      * @param affiche
