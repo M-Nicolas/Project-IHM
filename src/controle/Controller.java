@@ -62,6 +62,15 @@ public class Controller {
 		}
     	return lstRetour;
     }
+   
+    public ArrayList<String> getAllActorID() {
+        ArrayList<Actor> listAct = manager.getAllActors();
+        ArrayList<String> listRetour = new ArrayList<String>();
+        for (int i=0;i<listAct.size();i++) {
+            listRetour.add(listAct.get(i).getId());
+        }
+        return listRetour;
+    }
     
     public void create() {
         new Creation();

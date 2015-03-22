@@ -32,12 +32,14 @@ public class Creation extends Fenetre{
     Font gras = new Font("Ubuntu", Font.BOLD, 12);
     Font plain = new Font("Ubuntu", Font.PLAIN, 12);
     JScrollPane scrollPane = new JScrollPane();
+    JScrollPane scrollPane2 = new JScrollPane();
     
     JTextField aff = new JTextField("image/edge.jpg", 15);
     JTextField tit = new JTextField("Titre", 15);
     JTextField reali = new JTextField("réalisateur",15);
     JList<String> act = new JList<String>();
-    JTextField actor = new JTextField("acteur",15);
+    ArrayList<String> actID = new ArrayList<String>();
+    JList<String> act2 = new JList<String>();
     JButton add = new JButton("ajouter");
     JTextField gen = new JTextField("Genre",15);
     JTextField dur = new JTextField("durée", 15);
@@ -58,11 +60,14 @@ public class Creation extends Fenetre{
         JLabel genre = new JLabel("Genre :");
         JLabel duree = new JLabel("Durée :");
         JLabel resume = new JLabel("Résumé :");
+        
         paneglob.setLayout(layout);
         scroll.add(res);
-        //act.setListData((String[]) control.getAllActor().toArray());
+        
         String[] actorsNames = controller.getAllActor();
         act.setListData(actorsNames);
+        actID = controller.getAllActorID();
+        
         MouseAdapter mouseAdapt = new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
@@ -74,9 +79,6 @@ public class Creation extends Fenetre{
                 }
                 if(e.getSource() == reali && reali.getText().equals("réalisateur")){
                     reali.setText("");
-                }
-                if(e.getSource() == actor && actor.getText().equals("acteur")){
-                    actor.setText("");
                 }
                 if(e.getSource() == gen && gen.getText().equals("Genre")){
                     gen.setText("");
@@ -93,13 +95,14 @@ public class Creation extends Fenetre{
         aff.addMouseListener(mouseAdapt);
         tit.addMouseListener(mouseAdapt);
         reali.addMouseListener(mouseAdapt);
-        actor.addMouseListener(mouseAdapt);
         gen.addMouseListener(mouseAdapt);
         res.addMouseListener(mouseAdapt);
         dur.addMouseListener(mouseAdapt);
         
         scrollPane.add(act);
+        scrollPane2.add(act2);
         scrollPane.setPreferredSize(new Dimension(150, 100));
+        scrollPane2.setPreferredSize(new Dimension(150,100));
         
         creer.addActionListener(new CreateListener());
         
@@ -109,6 +112,7 @@ public class Creation extends Fenetre{
         
         scroll.setViewportView(res);
         scrollPane.setViewportView(act);
+        scrollPane2.setViewportView(act2);
         
         generateFrame();
     }
@@ -160,7 +164,7 @@ public class Creation extends Fenetre{
         paneglob.add(reali);
         paneglob.add(acteurs);
         paneglob.add(scrollPane);
-        paneglob.add(actor);
+        paneglob.add(scrollPane2);
         paneglob.add(add);
         paneglob.add(genre);
         paneglob.add(gen);
@@ -218,13 +222,13 @@ public class Creation extends Fenetre{
         layout.putConstraint(SpringLayout.NORTH, acteurs,5,SpringLayout.SOUTH,reali);
         layout.putConstraint(SpringLayout.WEST, scrollPane,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, scrollPane,5,SpringLayout.SOUTH,reali);
-        layout.putConstraint(SpringLayout.WEST, actor,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, actor,5,SpringLayout.SOUTH,scrollPane);
-        layout.putConstraint(SpringLayout.WEST, add,5,SpringLayout.EAST,actor);
-        layout.putConstraint(SpringLayout.NORTH, add,5,SpringLayout.SOUTH,scrollPane);
-        layout.putConstraint(SpringLayout.NORTH, genre,5,SpringLayout.SOUTH,add);
+        layout.putConstraint(SpringLayout.WEST, add,5,SpringLayout.EAST,scrollPane);
+        layout.putConstraint(SpringLayout.NORTH, add,5,SpringLayout.SOUTH,realisateur);
+        layout.putConstraint(SpringLayout.WEST, scrollPane2, 5, SpringLayout.EAST, add);
+        layout.putConstraint(SpringLayout.NORTH, scrollPane2,5,SpringLayout.SOUTH,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, genre,5,SpringLayout.SOUTH,scrollPane);
         layout.putConstraint(SpringLayout.WEST, gen,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, gen,5,SpringLayout.SOUTH,add);
+        layout.putConstraint(SpringLayout.NORTH, gen,5,SpringLayout.SOUTH,scrollPane);
         layout.putConstraint(SpringLayout.NORTH, duree,5,SpringLayout.SOUTH,gen);
         layout.putConstraint(SpringLayout.WEST, dur,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, dur,5,SpringLayout.SOUTH,gen);
