@@ -25,6 +25,9 @@ public class Controller {
         manager = new Manager();
     }
     
+    /**
+     * Constructeur de Controller sans liste en entrée
+     */
     public Controller() {
     	manager = new Manager();
     }
@@ -53,6 +56,10 @@ public class Controller {
         new Affichage(film);
     }
     
+    /**
+     * Retourne un tableau contenant tout les noms de tout les acteurs.
+     * @return tableau d'acteur
+     */
     public String[] getAllActor(){
     	ArrayList<Actor> lstAct = manager.getAllActors();
     	String[] lstRetour=new String[lstAct.size()];
@@ -62,7 +69,11 @@ public class Controller {
 		}
     	return lstRetour;
     }
-   
+    
+    /**
+     * Retourne une ArrayList contenant tout les ID de tout les Acteurs.
+     * @return ArrayList d'ID
+     */
     public ArrayList<String> getAllActorID() {
         ArrayList<Actor> listAct = manager.getAllActors();
         ArrayList<String> listRetour = new ArrayList<String>();
@@ -72,6 +83,9 @@ public class Controller {
         return listRetour;
     }
     
+    /**
+     * Ouvre une nouvelle fenetre Creation.
+     */
     public void create() {
         new Creation();
     }
@@ -172,16 +186,17 @@ public class Controller {
         return film.getSynopsis();
     }
     
-    /*		System.out.println(tit.getText());
-        	System.out.println(aff.getText());
-        	System.out.println(reali.getText());
-        	String test = act.getSelectedValue();
-        	System.out.println(test);
-        	System.out.println(gen.getText());
-        	System.out.println(dur.getText());
-        	System.out.println(res.getText());*/
+    /**
+     * Création du film dans la base de données.
+     * @param titre
+     * @param affiche
+     * @param realisateur
+     * @param acteurs
+     * @param genre
+     * @param duree
+     * @param resume
+     */
     public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,String genre,int duree,String resume){
-    	//public Film(String id, String title, Director director, ArrayList<Actor> actors, ArrayList<Genre> genres, int runtime, String poster, String synopsis) {
     	ArrayList<Director> d = manager.getAllDirectors();
     	Director dir = d.get(0);
     	ArrayList<Actor> a = manager.getAllActors();

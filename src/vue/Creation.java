@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -8,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.AbstractButton;
+import javax.swing.ActionMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.ActionMapUIResource;
@@ -24,27 +28,28 @@ import controle.Controller;
 import controle.Launch;
 
 public class Creation extends Fenetre{
-	Controller controller;
-    JFrame frame = new JFrame();
-    JScrollPane scroll = new JScrollPane();
-    JPanel paneglob = new JPanel();
-    SpringLayout layout = new SpringLayout();
-    Font gras = new Font("Ubuntu", Font.BOLD, 12);
-    Font plain = new Font("Ubuntu", Font.PLAIN, 12);
-    JScrollPane scrollPane = new JScrollPane();
-    JScrollPane scrollPane2 = new JScrollPane();
+	private Controller controller;
+    private JFrame frame = new JFrame();
+    private JScrollPane scroll = new JScrollPane();
+    private JPanel paneglob = new JPanel();
+    private SpringLayout layout = new SpringLayout();
+    private Font gras = new Font("Ubuntu", Font.BOLD, 12);
+    private Font plain = new Font("Ubuntu", Font.PLAIN, 12);
+    private JScrollPane scrollPane = new JScrollPane();
+    private JScrollPane scrollPane2 = new JScrollPane();
     
-    JTextField aff = new JTextField("image/edge.jpg", 15);
-    JTextField tit = new JTextField("Titre", 15);
-    JTextField reali = new JTextField("réalisateur",15);
-    JList<String> act = new JList<String>();
-    ArrayList<String> actID = new ArrayList<String>();
-    JList<String> act2 = new JList<String>();
-    JButton add = new JButton("ajouter");
-    JTextField gen = new JTextField("Genre",15);
-    JTextField dur = new JTextField("durée", 15);
-    JTextArea res = new JTextArea("Résumé");
-    JButton creer = new JButton("Créer");
+    private JTextField aff = new JTextField("image/edge.jpg", 15);
+    private JTextField tit = new JTextField("Titre", 15);
+    private JTextField reali = new JTextField("réalisateur",15);
+    private JList<String> act = new JList<String>();
+    private ArrayList<String> actID = new ArrayList<String>();
+    private JList<String> act2 = new JList<String>();
+    private ArrayList<String> actID2 = new ArrayList<String>();
+    private JButton add = new JButton("ajouter");
+    private JTextField gen = new JTextField("Genre",15);
+    private JTextField dur = new JTextField("durée", 15);
+    private JTextArea res = new JTextArea("Résumé");
+    private JButton creer = new JButton("Créer");
     
     /**
      * Constructeur de la classe Edition.
@@ -104,7 +109,9 @@ public class Creation extends Fenetre{
         scrollPane.setPreferredSize(new Dimension(150, 100));
         scrollPane2.setPreferredSize(new Dimension(150,100));
         
-        creer.addActionListener(new CreateListener());
+        CreateListener listener = new CreateListener();
+        creer.addActionListener(listener);
+        add.addActionListener(listener);
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
@@ -134,6 +141,7 @@ public class Creation extends Fenetre{
         titre.setFont(gras);
         act.setOpaque(false);
         act.setFont(plain);
+        act2.setFont(plain);
         genre.setFont(gras);
         gen.setFont(plain);
         duree.setFont(gras);
@@ -179,27 +187,48 @@ public class Creation extends Fenetre{
     
     private class CreateListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-        	/*
-        	JLabel affiche, JLabel titre, JLabel realisateur,
-            JLabel acteurs, JLabel genre, JLabel duree, JLabel resume*/
-        	String titre = tit.getText();
-        	System.out.println(tit.getText());
-        	String affiche = aff.getText();
-        	System.out.println(aff.getText());
-        	String realisateur =reali.getText();
-        	System.out.println(reali.getText());
-        	String test = act.getSelectedValue();
-        	System.out.println(test);
-        	//for(int i = 0 ; i<;i++){
-        	//System.out.println();act
-        	System.out.println(gen.getText());
-        	System.out.println(dur.getText());
-        	int duree = 120;//Integer.parseInt(dur.getText());
-        	System.out.println(res.getText());
-        	ArrayList<String> acts = new ArrayList<String>();
-        	acts.add("test");
-        	controller.CreerFilm(titre, affiche, realisateur, acts, gen.getText(), duree, res.getText());
-        	//Controller.
+        	if(e.getSource() == creer) {
+        	    String titre = tit.getText();
+        	    System.out.println(tit.getText());
+                String affiche = aff.getText();
+                System.out.println(aff.getText());
+                String realisateur =reali.getText();
+                System.out.println(reali.getText());
+                String test = act.getSelectedValue();
+                System.out.println(test);
+                //for(int i = 0 ; i<;i++){
+                //System.out.println();act2
+                System.out.println(gen.getText());
+                System.out.println(dur.getText());
+                int duree = 120;
+                System.out.println(res.getText());
+                controller.CreerFilm(titre, affiche, realisateur,
+                        actID2, gen.getText(), duree, res.getText());
+        	}
+        	
+        	if (e.getSource() == add) {
+        	    
+        	    //récupére les informations de la première liste :
+        	    ListModel<String> model = act.getModel();
+                int selectedIndex = act.getSelectedIndex();
+                
+                //les ajoute dans la seconde :
+                actID2.add( actID.get(selectedIndex));
+                
+                //Création d'un tableau qui remplacera le précédent de la
+                //seconde liste:
+                ListModel<String> model2 = act2.getModel();
+                String[] list = new String[model2.getSize() + 1];
+                System.out.println("ici");
+                for (int i = 0; i<model2.getSize(); i++) {
+                    
+                    list[i] = model2.getElementAt(i);
+                }
+                //ajout du nouvel élément :
+                list[model2.getSize()] = model.getElementAt(selectedIndex);
+                act2.setListData(list);
+                
+        	}
         }
     }
     
