@@ -228,7 +228,7 @@ public class Creation extends Fenetre{
 						}
 				}
                 
-                //controller.CreerFilm(titre, affiche, realisateur,actID2, genres, duree, res.getText());
+                controller.CreerFilm(titre, realisateur,actID2, genres, duree, res.getText());
         	}
         	
         	if (e.getSource() == add) {

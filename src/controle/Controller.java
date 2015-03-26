@@ -209,12 +209,31 @@ public class Controller {
      * @param duree
      * @param resume
      */
-    public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,ArrayList<String> genre,int duree,String resume){
+    public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,ArrayList<String> genres,int duree,String resume){
     	ArrayList<Director> d = manager.getAllDirectors();
     	Director dir = d.get(0);
-    	ArrayList<Actor> a = manager.getAllActors();
-    	ArrayList<Genre> g = manager.getAllGenres();
-    	Film newfilm = new Film("", titre, dir, a, g, duree, affiche, resume);
+    	
+    	ArrayList<Actor> actorNewFilm = new ArrayList<Actor>();
+    	ArrayList<Actor> tmpAct = manager.getAllActors();
+    	for (Actor actor : tmpAct) {
+			if(acteurs.contains(actor.getId())){
+				actorNewFilm.add(actor);
+			}
+		}
+    	
+    	ArrayList<Genre> genreNewFilm =  new ArrayList<Genre>();
+    	
+    	for (Genre g : manager.getAllGenres()) {
+			if(genres.contains(g.getLabelFr())){
+				genreNewFilm.add(g);
+			}
+		}
+    	
+    	
+    	
+    	//ArrayList<Actor> a = manager.getAllActors();
+    	//ArrayList<Genre> g = manager.getAllGenres();
+    	Film newfilm = new Film("", titre, dir, actorNewFilm, genreNewFilm, duree, resume);
     	if(manager.addFilm(newfilm)){
     		System.out.println("##AJOUT FILM OK##");
     	}
