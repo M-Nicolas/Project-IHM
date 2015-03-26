@@ -27,7 +27,7 @@ import controle.Controller;
 import controle.Launch;
 
 public class Edition extends Fenetre{
-	private Controller controller;
+    private Controller controller;
     private JFrame frame = new JFrame();
     private JScrollPane scroll = new JScrollPane();
     private JPanel paneglob = new JPanel();
@@ -38,9 +38,8 @@ public class Edition extends Fenetre{
     private JScrollPane scrollPane2 = new JScrollPane();
     private JScrollPane scrollPane3 = new JScrollPane();
     
-    private JTextField aff = new JTextField("image/edge.jpg", 15);
-    private JTextField tit = new JTextField("Titre", 15);
-    private JTextField reali = new JTextField("réalisateur",15);
+    private JTextField tit;
+    private JTextField reali;
     private JList<String> act = new JList<String>();
     private ArrayList<String> actID = new ArrayList<String>();
     private JList<String> act2 = new JList<String>();
@@ -52,14 +51,16 @@ public class Edition extends Fenetre{
     private JTextArea res = new JTextArea("Résumé");
     private JButton creer = new JButton("Créer");
     
+    private String titre2;
+    private String realisateur2;
+    
     /**
      * Constructeur de la classe Edition.
      */
-    public Edition() {
-    	
-    	controller = Launch.getController();
-    	
-        JLabel affiche = new JLabel("affiche");
+    public Edition(String id) {
+        controller = Launch.getController();
+        titre2 = controller.getTitre(id);
+        realisateur2 = controller.getRealisateur(id);
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
         JLabel acteurs = new JLabel("Avec :");
@@ -72,35 +73,7 @@ public class Edition extends Fenetre{
         String[] actorsNames = controller.getAllActor();
         act.setListData(actorsNames);
         actID = controller.getAllActorID();
-        
-        MouseAdapter mouseAdapt = new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(e.getSource() == aff && aff.getText().equals("image/edge.jpg")){
-                    aff.setText("");
-                }
-                if(e.getSource() == tit && tit.getText().equals("Titre")){
-                    tit.setText("");
-                }
-                if(e.getSource() == reali && reali.getText().equals("réalisateur")){
-                    reali.setText("");
-                }
-                if (e.getSource() == res && res.getText().equals("Résumé")){
-                    res.setText("");
-                }
-                if(e.getSource() == dur && dur.getText().equals("durée")){
-                    dur.setText("");
-                }
-            }
-        };
 
-        aff.addMouseListener(mouseAdapt);
-        tit.addMouseListener(mouseAdapt);
-        reali.addMouseListener(mouseAdapt);
-        gen.addMouseListener(mouseAdapt);
-        res.addMouseListener(mouseAdapt);
-        dur.addMouseListener(mouseAdapt);
-        
         scroll.add(res);
         scrollPane.add(act);
         scrollPane2.add(act2);
@@ -117,9 +90,8 @@ public class Edition extends Fenetre{
         createGenrePanel();
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
-        addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
-        
-        constraining(affiche, titre, realisateur, acteurs, genre, duree, resume);
+        addToPane(titre, realisateur, acteurs, genre, duree, resume);
+        constraining(titre, realisateur, acteurs, genre, duree, resume);
         
         scroll.setViewportView(res);
         scrollPane.setViewportView(act);
@@ -153,6 +125,8 @@ public class Edition extends Fenetre{
      */
     private void initiate(JLabel titre, JLabel realisateur, JLabel acteurs,
             JLabel genre, JLabel duree, JLabel resume) {
+        tit = new JTextField(titre2, 15);
+        reali = new JTextField(realisateur2,15);
         titre.setHorizontalAlignment(SwingConstants.CENTER);
         realisateur.setFont(gras);
         reali.setFont(plain);
@@ -180,12 +154,10 @@ public class Edition extends Fenetre{
      * @param duree
      * @param resume
      */
-    private void addToPane(JLabel affiche, JLabel titre, JLabel realisateur,
+    private void addToPane(JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         paneglob.add(titre);
         paneglob.add(tit);
-        paneglob.add(affiche);
-        paneglob.add(aff);
         paneglob.add(realisateur);
         paneglob.add(reali);
         paneglob.add(acteurs);
@@ -204,11 +176,9 @@ public class Edition extends Fenetre{
     
     private class CreateListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-        	if(e.getSource() == creer) {
-        	    String titre = tit.getText();
-        	    System.out.println(tit.getText());
-                String affiche = aff.getText();
-                System.out.println(aff.getText());
+            if(e.getSource() == creer) {
+                String titre = tit.getText();
+                System.out.println(tit.getText());
                 String realisateur =reali.getText();
                 System.out.println(reali.getText());
                 String test = act.getSelectedValue();
@@ -221,11 +191,11 @@ public class Edition extends Fenetre{
                 System.out.println(res.getText());
                 //controller.CreerFilm(titre, affiche, realisateur,
                         //actID2, gen.getText(), duree, res.getText());
-        	}
-        	
-        	if (e.getSource() == add) {
-        	    //récupére les informations de la première liste :
-        	    ListModel<String> model = act.getModel();
+            }
+            
+            if (e.getSource() == add) {
+                //récupére les informations de la première liste :
+                ListModel<String> model = act.getModel();
                 int[] selectedIndex = act.getSelectedIndices();
                 
                 //les ajoute dans la seconde :
@@ -267,11 +237,11 @@ public class Edition extends Fenetre{
                 } catch (IndexOutOfBoundsException e1) {}
                 
                 act2.setListData(list);
-        	}
-        	
-        	if (e.getSource() == rm) {
-        	    //recuppération de la liste et de l'indice :
-        	    ListModel<String> model = act2.getModel();
+            }
+            
+            if (e.getSource() == rm) {
+                //recuppération de la liste et de l'indice :
+                ListModel<String> model = act2.getModel();
                 int[] selectedIndex = act2.getSelectedIndices();
                 
                 //ajout des éléments dans la première liste :
@@ -309,7 +279,7 @@ public class Edition extends Fenetre{
                     }
                     act2.setListData(liste);
                 } catch (IndexOutOfBoundsException e1) {}
-        	}
+            }
         }
     }
     
@@ -323,7 +293,7 @@ public class Edition extends Fenetre{
      * @param duree
      * @param resume
      */
-    private void constraining(JLabel affiche, JLabel titre, JLabel realisateur,
+    private void constraining(JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         layout.putConstraint(SpringLayout.WEST, tit,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, realisateur,5,SpringLayout.SOUTH,tit);
@@ -347,10 +317,7 @@ public class Edition extends Fenetre{
         layout.putConstraint(SpringLayout.NORTH, resume,5,SpringLayout.SOUTH,dur);
         layout.putConstraint(SpringLayout.WEST, scroll,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, scroll,5,SpringLayout.SOUTH,dur);
-        layout.putConstraint(SpringLayout.NORTH, affiche,5,SpringLayout.SOUTH, scroll);
-        layout.putConstraint(SpringLayout.WEST, aff,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, aff,5,SpringLayout.SOUTH,scroll);
-        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,affiche);
+        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,scroll);
     }
     /**
      * Crée la frame.

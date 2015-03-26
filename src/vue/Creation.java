@@ -62,7 +62,7 @@ public class Creation extends Fenetre{
     	
     	controller = Launch.getController();
     	
-
+    	JLabel affiche = new JLabel("Affiche");
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
         JLabel acteurs = new JLabel("Avec :");
@@ -79,7 +79,9 @@ public class Creation extends Fenetre{
         MouseAdapter mouseAdapt = new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-
+                if (e.getSource() == aff && aff.getText().equals("Affiche")) {
+                    aff.setText("");
+                }
                 if(e.getSource() == tit && tit.getText().equals("Titre")){
                     tit.setText("");
                 }
@@ -95,7 +97,7 @@ public class Creation extends Fenetre{
             }
         };
 
-
+        aff.addMouseListener(mouseAdapt);
         tit.addMouseListener(mouseAdapt);
         reali.addMouseListener(mouseAdapt);
         gen.addMouseListener(mouseAdapt);
@@ -117,10 +119,10 @@ public class Creation extends Fenetre{
         rm.addActionListener(listener);
         createGenrePanel();
         
-        initiate(titre, realisateur, acteurs, genre, duree, resume);
-        addToPane(titre, realisateur, acteurs, genre, duree, resume);
+        initiate(affiche, titre, realisateur, acteurs, genre, duree, resume);
+        addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
         
-        constraining(titre, realisateur, acteurs, genre, duree, resume);
+        constraining(affiche, titre, realisateur, acteurs, genre, duree, resume);
         
         scroll.setViewportView(res);
         scrollPane.setViewportView(act);
@@ -152,9 +154,10 @@ public class Creation extends Fenetre{
      * @param duree
      * @param resume
      */
-    private void initiate(JLabel titre, JLabel realisateur, JLabel acteurs,
+    private void initiate(JLabel affiche, JLabel titre, JLabel realisateur, JLabel acteurs,
             JLabel genre, JLabel duree, JLabel resume) {
         titre.setHorizontalAlignment(SwingConstants.CENTER);
+        affiche.setFont(gras);
         realisateur.setFont(gras);
         reali.setFont(plain);
         titre.setFont(gras);
@@ -181,8 +184,10 @@ public class Creation extends Fenetre{
      * @param duree
      * @param resume
      */
-    private void addToPane(JLabel titre, JLabel realisateur,
+    private void addToPane(JLabel affiche, JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
+        paneglob.add(affiche);
+        paneglob.add(aff);
         paneglob.add(titre);
         paneglob.add(tit);
         paneglob.add(aff);
@@ -228,7 +233,7 @@ public class Creation extends Fenetre{
 						}
 				}
                 
-                controller.CreerFilm(titre, realisateur,actID2, genres, duree, res.getText());
+                controller.CreerFilm(titre, realisateur, aff.getText(), actID2, genres, duree, res.getText());
         	}
         	
         	if (e.getSource() == add) {
@@ -331,7 +336,7 @@ public class Creation extends Fenetre{
      * @param duree
      * @param resume
      */
-    private void constraining(JLabel titre, JLabel realisateur,
+    private void constraining(JLabel affiche, JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         layout.putConstraint(SpringLayout.WEST, tit,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, realisateur,5,SpringLayout.SOUTH,tit);
@@ -355,7 +360,10 @@ public class Creation extends Fenetre{
         layout.putConstraint(SpringLayout.NORTH, resume,5,SpringLayout.SOUTH,dur);
         layout.putConstraint(SpringLayout.WEST, scroll,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, scroll,5,SpringLayout.SOUTH,dur);
-        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,scroll);
+        layout.putConstraint(SpringLayout.NORTH, affiche,5,SpringLayout.SOUTH,scroll);
+        layout.putConstraint(SpringLayout.WEST, aff,5,SpringLayout.EAST,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, aff,5,SpringLayout.SOUTH,scroll);
+        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,aff);
     }
     /**
      * Crée la frame.
