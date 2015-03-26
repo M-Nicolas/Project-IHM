@@ -48,19 +48,17 @@ public class Edition extends Fenetre{
     private JButton rm = new JButton("enlever");
     private JPanel gen = new JPanel();
     private JTextField dur = new JTextField("durée", 15);
-    private JTextArea res = new JTextArea("Résumé");
+    private JTextArea res;
     private JButton creer = new JButton("Créer");
-    
-    private String titre2;
-    private String realisateur2;
     
     /**
      * Constructeur de la classe Edition.
      */
     public Edition(String id) {
         controller = Launch.getController();
-        titre2 = controller.getTitre(id);
-        realisateur2 = controller.getRealisateur(id);
+        tit = new JTextField(controller.getTitre(id));
+        reali = new JTextField(controller.getRealisateur(id));
+        res = new JTextArea(controller.getResume(id));
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
         JLabel acteurs = new JLabel("Avec :");
@@ -125,8 +123,6 @@ public class Edition extends Fenetre{
      */
     private void initiate(JLabel titre, JLabel realisateur, JLabel acteurs,
             JLabel genre, JLabel duree, JLabel resume) {
-        tit = new JTextField(titre2, 15);
-        reali = new JTextField(realisateur2,15);
         titre.setHorizontalAlignment(SwingConstants.CENTER);
         realisateur.setFont(gras);
         reali.setFont(plain);

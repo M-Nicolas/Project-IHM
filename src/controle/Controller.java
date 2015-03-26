@@ -240,8 +240,6 @@ public class Controller {
 			}
 		}
     	
-    	
-    	
     	//ArrayList<Actor> a = manager.getAllActors();
     	//ArrayList<Genre> g = manager.getAllGenres();
     	Film newfilm = new Film("", titre, dir, actorNewFilm, genreNewFilm, duree,affiche, resume);
@@ -251,6 +249,54 @@ public class Controller {
     	else{
     		System.out.println("##FAIL##");
     	}
+    }
+   
+    /**
+     * cherche un film par id. retourne null si l'id est mauvais.
+     * @param id
+     * @return
+     */
+    public String getTitre(String id) {
+        ArrayList<Film> list = manager.getAllFilms();
+        String title = null;
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+                title = list.get(i).getTitle();
+            }
+        }
+        return title;
+    }
+    
+    /**
+     * Cherche le realisateur d'un film donné par id.
+     * @param id
+     * @return
+     */
+    public String getRealisateur(String id) {
+        ArrayList<Film> list = manager.getAllFilms();
+        String reali = null;
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+                reali = list.get(i).getDirector().getLastname()+" "+list.get(i).getDirector().getFirstname();
+            }
+        }
+        return reali;
+    }
+    
+    /**
+     * Cherche le résumé d'un film donné par id.
+     * @param id
+     * @return
+     */
+    public String getResume(String id) {
+        ArrayList<Film> list = manager.getAllFilms();
+        String resume = null;
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+                resume = list.get(i).getSynopsis();
+            }
+        }
+        return resume;
     }
 }
 
