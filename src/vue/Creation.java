@@ -39,6 +39,7 @@ public class Creation extends Fenetre{
     private Font plain = new Font("Ubuntu", Font.PLAIN, 12);
     private JScrollPane scrollPane = new JScrollPane();
     private JScrollPane scrollPane2 = new JScrollPane();
+    private JScrollPane scrollPane3 = new JScrollPane();
     
     private JTextField aff = new JTextField("image/edge.jpg", 15);
     private JTextField tit = new JTextField("Titre", 15);
@@ -70,8 +71,6 @@ public class Creation extends Fenetre{
         JLabel resume = new JLabel("Résumé :");
         
         paneglob.setLayout(layout);
-        scroll.add(res);
-        
         
         String[] actorsNames = controller.getAllActor();
         act.setListData(actorsNames);
@@ -105,8 +104,10 @@ public class Creation extends Fenetre{
         res.addMouseListener(mouseAdapt);
         dur.addMouseListener(mouseAdapt);
         
+        scroll.add(res);
         scrollPane.add(act);
         scrollPane2.add(act2);
+        scroll.setPreferredSize(new Dimension(300, 150));
         scrollPane.setPreferredSize(new Dimension(150, 100));
         scrollPane2.setPreferredSize(new Dimension(150,100));
         
@@ -118,11 +119,13 @@ public class Creation extends Fenetre{
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
+        scrollPane3.add(paneglob);
         constraining(affiche, titre, realisateur, acteurs, genre, duree, resume);
         
         scroll.setViewportView(res);
         scrollPane.setViewportView(act);
         scrollPane2.setViewportView(act2);
+        scrollPane3.setViewportView(paneglob);
         
         generateFrame();
     }
@@ -196,7 +199,6 @@ public class Creation extends Fenetre{
         paneglob.add(duree);
         paneglob.add(dur);
         paneglob.add(resume);
-        res.setPreferredSize(new Dimension(150, 150));
         paneglob.add(scroll);
         paneglob.add(creer);
     }
