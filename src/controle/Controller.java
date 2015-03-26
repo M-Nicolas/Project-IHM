@@ -233,7 +233,7 @@ public class Controller {
     	
     	//ArrayList<Actor> a = manager.getAllActors();
     	//ArrayList<Genre> g = manager.getAllGenres();
-    	Film newfilm = new Film("", titre, dir, actorNewFilm, genreNewFilm, duree, resume);
+    	Film newfilm = new Film("", titre, dir, actorNewFilm, genreNewFilm, duree,affiche, resume);
     	if(manager.addFilm(newfilm)){
     		System.out.println("##AJOUT FILM OK##");
     	}

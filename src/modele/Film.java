@@ -2,8 +2,10 @@ package modele;
 
 import fr.inria.acacia.corese.api.*;
 import fr.inria.acacia.corese.exceptions.EngineException;
+
 import java.io.*;
 import java.util.*;
+
 import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;
@@ -14,7 +16,7 @@ import org.jdom.output.*;
  * @author Brel Christian <brel@polytech.unice.fr>
  * @version 05/06/2009
  */
-public class Film {
+public class Film implements Observer{
 
     private String id;
     private String title;
@@ -611,4 +613,9 @@ public class Film {
 
         return returnString;
     }
+
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("OBSERVER");
+	}
 }
