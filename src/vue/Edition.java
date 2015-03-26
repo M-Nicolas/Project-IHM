@@ -2,11 +2,15 @@ package vue;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -14,33 +18,47 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.ActionMapUIResource;
+
+import controle.Controller;
+import controle.Launch;
 
 public class Edition extends Fenetre{
-    JFrame frame = new JFrame();
-    JScrollPane scroll = new JScrollPane();
-    JPanel paneglob = new JPanel();
-    SpringLayout layout = new SpringLayout();
-    Font gras = new Font("Ubuntu", Font.BOLD, 12);
-    Font plain = new Font("Ubuntu", Font.PLAIN, 12);
-    JScrollPane scrollPane = new JScrollPane();
+	private Controller controller;
+    private JFrame frame = new JFrame();
+    private JScrollPane scroll = new JScrollPane();
+    private JPanel paneglob = new JPanel();
+    private SpringLayout layout = new SpringLayout();
+    private Font gras = new Font("Ubuntu", Font.BOLD, 12);
+    private Font plain = new Font("Ubuntu", Font.PLAIN, 12);
+    private JScrollPane scrollPane = new JScrollPane();
+    private JScrollPane scrollPane2 = new JScrollPane();
+    private JScrollPane scrollPane3 = new JScrollPane();
     
-    JTextField aff = new JTextField("image/edge.jpg", 15);
-    JTextField tit = new JTextField("Titre", 15);
-    JTextField reali = new JTextField("réalisateur",15);
-    JList<String> act = new JList<String>();
-    JTextField actor = new JTextField("acteur",15);
-    JButton add = new JButton("ajouter");
-    JTextField gen = new JTextField("Genre",15);
-    JTextField dur = new JTextField("durée", 15);
-    JTextArea res = new JTextArea("Résumé");
-    JButton creer = new JButton("Créer");
+    private JTextField aff = new JTextField("image/edge.jpg", 15);
+    private JTextField tit = new JTextField("Titre", 15);
+    private JTextField reali = new JTextField("réalisateur",15);
+    private JList<String> act = new JList<String>();
+    private ArrayList<String> actID = new ArrayList<String>();
+    private JList<String> act2 = new JList<String>();
+    private ArrayList<String> actID2 = new ArrayList<String>();
+    private JButton add = new JButton("ajouter");
+    private JButton rm = new JButton("enlever");
+    private JPanel gen = new JPanel();
+    private JTextField dur = new JTextField("durée", 15);
+    private JTextArea res = new JTextArea("Résumé");
+    private JButton creer = new JButton("Créer");
     
     /**
      * Constructeur de la classe Edition.
      */
     public Edition() {
+    	
+    	controller = Launch.getController();
+    	
         JLabel affiche = new JLabel("affiche");
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
@@ -48,70 +66,82 @@ public class Edition extends Fenetre{
         JLabel genre = new JLabel("Genre :");
         JLabel duree = new JLabel("Durée :");
         JLabel resume = new JLabel("Résumé :");
-        paneglob.setLayout(layout);
-        scroll.add(res);
-        scrollPane.add(act);
-        scrollPane.setPreferredSize(new Dimension(150, 100));
         
-        aff.addMouseListener(new MouseAdapter(){
+        paneglob.setLayout(layout);
+        
+        String[] actorsNames = controller.getAllActor();
+        act.setListData(actorsNames);
+        actID = controller.getAllActorID();
+        
+        MouseAdapter mouseAdapt = new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-                if(aff.getText().equals("image/edge.jpg")){
+                if(e.getSource() == aff && aff.getText().equals("image/edge.jpg")){
                     aff.setText("");
                 }
-            }
-        });
-        tit.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(tit.getText().equals("Titre")){
+                if(e.getSource() == tit && tit.getText().equals("Titre")){
                     tit.setText("");
                 }
-            }
-        });
-        reali.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(reali.getText().equals("réalisateur")){
+                if(e.getSource() == reali && reali.getText().equals("réalisateur")){
                     reali.setText("");
                 }
-            }
-        });
-        actor.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(actor.getText().equals("acteur")){
-                    actor.setText("");
+                if (e.getSource() == res && res.getText().equals("Résumé")){
+                    res.setText("");
                 }
-            }
-        });
-        gen.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(gen.getText().equals("Genre")){
-                    gen.setText("");
-                }
-            }
-        });
-        dur.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e){
-                if(dur.getText().equals("durée")){
+                if(e.getSource() == dur && dur.getText().equals("durée")){
                     dur.setText("");
                 }
             }
-        });
+        };
+
+        aff.addMouseListener(mouseAdapt);
+        tit.addMouseListener(mouseAdapt);
+        reali.addMouseListener(mouseAdapt);
+        gen.addMouseListener(mouseAdapt);
+        res.addMouseListener(mouseAdapt);
+        dur.addMouseListener(mouseAdapt);
+        
+        scroll.add(res);
+        scrollPane.add(act);
+        scrollPane2.add(act2);
+        scrollPane3.add(paneglob);
+        scroll.setPreferredSize(new Dimension(300, 150));
+        scrollPane.setPreferredSize(new Dimension(150, 100));
+        scrollPane2.setPreferredSize(new Dimension(150,100));
+        scrollPane3.setPreferredSize(new Dimension(600,500));
+        
+        CreateListener listener = new CreateListener();
+        creer.addActionListener(listener);
+        add.addActionListener(listener);
+        rm.addActionListener(listener);
+        createGenrePanel();
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
+        
         constraining(affiche, titre, realisateur, acteurs, genre, duree, resume);
         
         scroll.setViewportView(res);
         scrollPane.setViewportView(act);
+        scrollPane2.setViewportView(act2);
+        scrollPane3.setViewportView(paneglob);
         
         generateFrame();
     }
     
+    /**
+     * Création du panel de genres.
+     */
+    private void createGenrePanel() {
+        ArrayList<String> genres = controller.getAllGenre();
+        for (int i = 0; i<genres.size(); i++) {
+            JCheckBox temporary = new JCheckBox(genres.get(i));
+            temporary.setFocusable(true);
+            gen.add(temporary);
+            gen.setLayout(new GridLayout(5,4));
+        }
+    }
+
     /**
      * Met en forme les textes de la fenetre.
      * @param titre
@@ -129,6 +159,7 @@ public class Edition extends Fenetre{
         titre.setFont(gras);
         act.setOpaque(false);
         act.setFont(plain);
+        act2.setFont(plain);
         genre.setFont(gras);
         gen.setFont(plain);
         duree.setFont(gras);
@@ -159,17 +190,127 @@ public class Edition extends Fenetre{
         paneglob.add(reali);
         paneglob.add(acteurs);
         paneglob.add(scrollPane);
-        paneglob.add(actor);
+        paneglob.add(scrollPane2);
         paneglob.add(add);
+        paneglob.add(rm);
         paneglob.add(genre);
         paneglob.add(gen);
         paneglob.add(duree);
         paneglob.add(dur);
         paneglob.add(resume);
-        res.setPreferredSize(new Dimension(150, 150));
-        scroll.add(res);
         paneglob.add(scroll);
         paneglob.add(creer);
+    }
+    
+    private class CreateListener implements ActionListener{
+        public void actionPerformed(ActionEvent e) {
+        	if(e.getSource() == creer) {
+        	    String titre = tit.getText();
+        	    System.out.println(tit.getText());
+                String affiche = aff.getText();
+                System.out.println(aff.getText());
+                String realisateur =reali.getText();
+                System.out.println(reali.getText());
+                String test = act.getSelectedValue();
+                System.out.println(test);
+                //for(int i = 0 ; i<;i++){
+                //System.out.println();act2
+                //System.out.println(gen.getText());
+                System.out.println(dur.getText());
+                int duree = 120;
+                System.out.println(res.getText());
+                //controller.CreerFilm(titre, affiche, realisateur,
+                        //actID2, gen.getText(), duree, res.getText());
+        	}
+        	
+        	if (e.getSource() == add) {
+        	    //récupére les informations de la première liste :
+        	    ListModel<String> model = act.getModel();
+                int[] selectedIndex = act.getSelectedIndices();
+                
+                //les ajoute dans la seconde :
+                for (int i = 0; i<selectedIndex.length; i ++) {
+                    actID2.add(actID.get(selectedIndex[i]));
+                }
+                
+                //Création d'un tableau qui remplacera le précédent de la
+                //seconde liste:
+                ListModel<String> model2 = act2.getModel();
+                String[] list = new String[model2.getSize() + selectedIndex.length];
+                for (int i = 0; i<model2.getSize(); i++) {
+                    list[i] = model2.getElementAt(i);
+                }
+                //ajout des nouvel élément :
+                for (int i = 0; i<selectedIndex.length; i ++) {
+                    list[model2.getSize()+i] = model.getElementAt(selectedIndex[i]);
+                }
+                
+                //suppression de la première liste :
+                try {
+                    actID.remove(selectedIndex);
+                    String[] liste = new String[model.getSize()
+                                                -selectedIndex.length];
+                    int j = 0;
+                    for (int i = 0; i<model.getSize(); i++) {
+                        boolean passed = true;
+                        for (int k = 0; k < selectedIndex.length; k++) {
+                            if (i == selectedIndex[k]) {
+                                passed = false;
+                            }
+                        }
+                        if (passed == true) {
+                            liste[j] = model.getElementAt(i);
+                            j++;
+                        }
+                    }
+                    act.setListData(liste);
+                } catch (IndexOutOfBoundsException e1) {}
+                
+                act2.setListData(list);
+        	}
+        	
+        	if (e.getSource() == rm) {
+        	    //recuppération de la liste et de l'indice :
+        	    ListModel<String> model = act2.getModel();
+                int[] selectedIndex = act2.getSelectedIndices();
+                
+                //ajout des éléments dans la première liste :
+                for (int i = 0; i<selectedIndex.length; i++)
+                    actID.add(actID2.get(selectedIndex[i]));
+                
+                //Création d'un tableau qui remplacera le précédent de la
+                //seconde liste:
+                ListModel<String> model2 = act.getModel();
+                String[] list = new String[model2.getSize() + selectedIndex.length];
+                for (int i = 0; i<model2.getSize(); i++)
+                    list[i] = model2.getElementAt(i);
+                
+                for (int i = 0; i<selectedIndex.length; i++)
+                    list[model2.getSize() + i] = model.getElementAt(selectedIndex[i]);
+                act.setListData(list);
+                
+                //Suppréssion des éléments :
+                try {
+                    actID2.remove(selectedIndex);
+                    String[] liste = new String[model.getSize()
+                                                -selectedIndex.length];
+                    int j = 0;
+                    for (int i = 0; i<model.getSize(); i++) {
+                        boolean passed = false;
+                        for (int k = 0; k < selectedIndex.length; k++) {
+                            if (i == selectedIndex[k]) {
+                                passed = true;
+                            }
+                        }
+                        if (passed == false) {
+                            liste[j] = model.getElementAt(i);
+                            j++;
+                        }
+                    }
+                    act2.setListData(liste);
+                } catch (IndexOutOfBoundsException e1) {}
+        	}
+        }
     }
     
     /**
@@ -191,13 +332,15 @@ public class Edition extends Fenetre{
         layout.putConstraint(SpringLayout.NORTH, acteurs,5,SpringLayout.SOUTH,reali);
         layout.putConstraint(SpringLayout.WEST, scrollPane,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, scrollPane,5,SpringLayout.SOUTH,reali);
-        layout.putConstraint(SpringLayout.WEST, actor,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, actor,5,SpringLayout.SOUTH,scrollPane);
-        layout.putConstraint(SpringLayout.WEST, add,5,SpringLayout.EAST,actor);
-        layout.putConstraint(SpringLayout.NORTH, add,5,SpringLayout.SOUTH,scrollPane);
-        layout.putConstraint(SpringLayout.NORTH, genre,5,SpringLayout.SOUTH,add);
+        layout.putConstraint(SpringLayout.WEST, add,5,SpringLayout.EAST,scrollPane);
+        layout.putConstraint(SpringLayout.NORTH, add,5,SpringLayout.SOUTH,realisateur);
+        layout.putConstraint(SpringLayout.WEST, rm,5,SpringLayout.EAST,scrollPane);
+        layout.putConstraint(SpringLayout.NORTH, rm,5,SpringLayout.SOUTH,add);
+        layout.putConstraint(SpringLayout.WEST, scrollPane2, 5, SpringLayout.EAST, add);
+        layout.putConstraint(SpringLayout.NORTH, scrollPane2,5,SpringLayout.SOUTH,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, genre,5,SpringLayout.SOUTH,scrollPane);
         layout.putConstraint(SpringLayout.WEST, gen,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, gen,5,SpringLayout.SOUTH,add);
+        layout.putConstraint(SpringLayout.NORTH, gen,5,SpringLayout.SOUTH,scrollPane);
         layout.putConstraint(SpringLayout.NORTH, duree,5,SpringLayout.SOUTH,gen);
         layout.putConstraint(SpringLayout.WEST, dur,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, dur,5,SpringLayout.SOUTH,gen);
@@ -214,7 +357,7 @@ public class Edition extends Fenetre{
      */
     private void generateFrame() {
         frame.setContentPane(paneglob);
-        frame.setMinimumSize(new Dimension(400, 500));
+        frame.setMinimumSize(new Dimension(600, 500));
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
