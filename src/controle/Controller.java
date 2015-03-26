@@ -326,7 +326,8 @@ public class Controller {
     	String duree = "";
         for (int i = 0; i < list.size() - 1; i++) {
             if (list.get(i).getId() == id) {
-            	duree = ""+list.get(i).getRuntime();
+            	
+            	duree = ""+(list.get(i).getRuntime()/60)+"h"+(list.get(i).getRuntime()%60);
             }
         }
         return duree;
