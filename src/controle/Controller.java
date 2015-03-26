@@ -1,6 +1,7 @@
 package controle;
 
 import java.util.ArrayList;
+import java.util.Observer; // Ne pas enlever!
 
 import modele.Actor;
 import modele.Director;
