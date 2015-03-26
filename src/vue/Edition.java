@@ -85,7 +85,7 @@ public class Edition extends Fenetre{
         creer.addActionListener(listener);
         add.addActionListener(listener);
         rm.addActionListener(listener);
-        createGenrePanel();
+        createGenrePanel(id);
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(titre, realisateur, acteurs, genre, duree, resume);
@@ -102,10 +102,12 @@ public class Edition extends Fenetre{
     /**
      * Création du panel de genres.
      */
-    private void createGenrePanel() {
+    private void createGenrePanel(String id) {
         ArrayList<String> genres = controller.getAllGenre();
         for (int i = 0; i<genres.size(); i++) {
             JCheckBox temporary = new JCheckBox(genres.get(i));
+            if (controller.checkGenre(genres.get(i), id))
+                temporary.setSelected(true);
             temporary.setFocusable(true);
             gen.add(temporary);
             gen.setLayout(new GridLayout(5,4));
