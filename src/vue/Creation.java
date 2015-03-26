@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.Checkbox;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractButton;
 import javax.swing.ActionMap;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -136,7 +138,7 @@ public class Creation extends Fenetre{
     private void createGenrePanel() {
         ArrayList<String> genres = controller.getAllGenre();
         for (int i = 0; i<genres.size(); i++) {
-            Checkbox temporary = new Checkbox(genres.get(i));
+            JCheckBox temporary = new JCheckBox(genres.get(i));
             temporary.setFocusable(true);
             gen.add(temporary);
             gen.setLayout(new GridLayout(5,4));
@@ -217,11 +219,20 @@ public class Creation extends Fenetre{
                 //for(int i = 0 ; i<;i++){
                 //System.out.println();act2
                 //System.out.println(gen.getText());
-                System.out.println(dur.getText());
-                int duree = 120;
-                System.out.println(res.getText());
-                //controller.CreerFilm(titre, affiche, realisateur,
-                        //actID2, gen.getText(), duree, res.getText());
+                //System.out.println(dur.getText());
+                int duree = Integer.parseInt(dur.getText());
+                System.out.println(duree+3);
+                //System.out.println(res.getText());
+                
+                ArrayList<String> genres = new ArrayList<String>(); 
+                for (Component jb : gen.getComponents()) {
+						JCheckBox tmp =(JCheckBox)jb;
+						if(tmp.isSelected()){
+							genres.add(tmp.getText());
+						}
+				}
+                
+                //controller.CreerFilm(titre, affiche, realisateur,actID2, genres, duree, res.getText());
         	}
         	
         	if (e.getSource() == add) {

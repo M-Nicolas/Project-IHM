@@ -209,7 +209,7 @@ public class Controller {
      * @param duree
      * @param resume
      */
-    public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,String genre,int duree,String resume){
+    public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,ArrayList<String> genre,int duree,String resume){
     	ArrayList<Director> d = manager.getAllDirectors();
     	Director dir = d.get(0);
     	ArrayList<Actor> a = manager.getAllActors();
