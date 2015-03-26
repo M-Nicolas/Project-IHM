@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.Checkbox;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -185,7 +185,6 @@ public class Creation extends Fenetre{
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         paneglob.add(titre);
         paneglob.add(tit);
-        paneglob.add(affiche);
         paneglob.add(aff);
         paneglob.add(realisateur);
         paneglob.add(reali);
@@ -332,7 +331,7 @@ public class Creation extends Fenetre{
      * @param duree
      * @param resume
      */
-    private void constraining(JLabel affiche, JLabel titre, JLabel realisateur,
+    private void constraining(JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         layout.putConstraint(SpringLayout.WEST, tit,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, realisateur,5,SpringLayout.SOUTH,tit);
