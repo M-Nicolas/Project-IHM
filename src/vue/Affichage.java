@@ -39,7 +39,7 @@ public class Affichage extends Fenetre{
     /**
      * Constructeur de la classe Affichage qui crée la frame demandé.
      */
-    public Affichage(Film film) {
+    public Affichage(String idFilm) {
     	
     	controller = Launch.getController();
     	
@@ -53,7 +53,7 @@ public class Affichage extends Fenetre{
         JLabel genre = new JLabel("Genre :");
         JLabel duree = new JLabel("Durée :");
         
-        initialiseFilm(film);
+        initialiseFilm(idFilm);
         gererTitre();
         gererAct();
         gererResume();
@@ -129,21 +129,21 @@ public class Affichage extends Fenetre{
         frame.setVisible(true);
     }
     
-    private void initialiseFilm(Film film) {
+    private void initialiseFilm(String idFilm) {
         
-        affiche = new JLabel(new ImageIcon(controller.getURL(film)));
+        affiche = new JLabel(new ImageIcon(controller.getAffiche(idFilm)));
         
-        titre = new JLabel(controller.getName(film));
+        titre = new JLabel(controller.getAffiche(idFilm));
         
-        reali = new JLabel(controller.getDirector(film));
+        reali = new JLabel(controller.getDirector(idFilm));
         
-        act = new JList<String>(controller.getActorList(film));
+        act = new JList<String>(controller.getActorList(idFilm));
         
-        gen = new JList<String>(controller.getGenreList(film));
+        gen = new JList<String>(controller.getGenreList(idFilm));
         
         
-        dur = new JLabel(controller.getFilmLength(film));
+        dur = new JLabel(controller.getFilmLength(idFilm));
         
-        resume = new JTextArea(controller.getSynopsis(film));
+        resume = new JTextArea(controller.getSynopsis(idFilm));
     }
 }

@@ -54,7 +54,7 @@ public class Controller {
      */
     public void resultOfSearch(String title) {
         Film film = getFilm(title);
-        new Affichage(film);
+        new Affichage(film.getId());
     }
     
     /**
@@ -267,6 +267,84 @@ public class Controller {
         }
         return title;
     }
+    
+    public String getAffiche(String id) {
+        ArrayList<Film> list = manager.getAllFilms();
+        String affiche = null;
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+            	affiche = list.get(i).getPoster();
+            }
+        }
+        return affiche;
+    }
+    
+    public String getDirector(String id) {
+    	ArrayList<Film> list = manager.getAllFilms();
+        String director = null;
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+            	director = list.get(i).getDirector().getFirstname()+" "+list.get(i).getDirector().getLastname();
+            }
+        }
+        return director;
+    }
+    
+    public String[] getActorList(String id) {
+    	ArrayList<Film> list = manager.getAllFilms();
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+            	String[] actors = new String[list.get(i).getActors().size()];
+            	int j=0;
+            	for (Actor actor : list.get(i).getActors()) {
+            		actors[j] = actor.getFirstname()+" "+actor.getLastname();
+            		j++;
+				}
+            	return actors;
+            }
+        }
+        return null;
+    }
+    
+    public String[] getGenreList(String id) {
+    	ArrayList<Film> list = manager.getAllFilms();
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+            	String[] genres = new String[list.get(i).getGenres().size()];
+            	int j=0;
+            	for (Genre genre : list.get(i).getGenres()) {
+            		genres[j] = genre.getLabelFr();
+            		j++;
+				}
+            	return genres;
+            }
+        }
+        return null;
+    }
+    
+    public String getFilmLength(String id) {
+    	ArrayList<Film> list = manager.getAllFilms();
+    	String duree = "";
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+            	duree = ""+list.get(i).getRuntime();
+            }
+        }
+        return duree;
+    }
+    
+    public String getSynopsis(String id) {
+    	ArrayList<Film> list = manager.getAllFilms();
+    	String resume = "";
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+            	resume = list.get(i).getSynopsis();
+            }
+        }
+        return resume;
+    }
+    
+    
     
     /**
      * Cherche le realisateur d'un film donné par id.
