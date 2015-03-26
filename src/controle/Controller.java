@@ -70,6 +70,16 @@ public class Controller {
     	return lstRetour;
     }
     
+    public String[] getAllRealisator(){
+    	ArrayList<Director> lstReal = manager.getAllDirectors();
+    	String[] lstRetour=new String[lstReal.size()];
+    	for (int i=0;i<lstReal.size();i++) {
+			lstRetour[i] = lstReal.get(i).getFirstname()+
+			        " "+lstReal.get(i).getLastname();
+		}
+    	return lstRetour;
+    }
+    
     /**
      * Retourne une ArrayList contenant tout les ID de tout les Acteurs.
      * @return ArrayList d'ID
@@ -152,6 +162,7 @@ public class Controller {
         }
         return list;
     }
+    
     
     /**
      * Retourne un tableau contenant la liste des genre

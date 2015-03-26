@@ -1,8 +1,6 @@
 package vue;
 
-import java.awt.Checkbox;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -14,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -24,7 +23,6 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-import javax.swing.plaf.ActionMapUIResource;
 
 import controle.Controller;
 import controle.Launch;
@@ -43,7 +41,7 @@ public class Creation extends Fenetre{
     
     private JTextField aff = new JTextField("image/edge.jpg", 15);
     private JTextField tit = new JTextField("Titre", 15);
-    private JTextField reali = new JTextField("réalisateur",15);
+    private JComboBox<String> reali = new JComboBox<String>();
     private JList<String> act = new JList<String>();
     private ArrayList<String> actID = new ArrayList<String>();
     private JList<String> act2 = new JList<String>();
@@ -72,6 +70,9 @@ public class Creation extends Fenetre{
         
         paneglob.setLayout(layout);
         
+        String[] realisatorName = controller.getAllRealisator();
+        reali = new JComboBox<String>(realisatorName);
+        
         String[] actorsNames = controller.getAllActor();
         act.setListData(actorsNames);
         actID = controller.getAllActorID();
@@ -84,9 +85,6 @@ public class Creation extends Fenetre{
                 }
                 if(e.getSource() == tit && tit.getText().equals("Titre")){
                     tit.setText("");
-                }
-                if(e.getSource() == reali && reali.getText().equals("réalisateur")){
-                    reali.setText("");
                 }
                 if (e.getSource() == res && res.getText().equals("Résumé")){
                     res.setText("");
@@ -213,8 +211,8 @@ public class Creation extends Fenetre{
         	    String titre = tit.getText();
         	    System.out.println(tit.getText());
 
-                String realisateur =reali.getText();
-                System.out.println(reali.getText());
+                String realisateur ="tmp";//TODO CHANGER
+                //System.out.println(reali.getText());
                 String test = act.getSelectedValue();
                 System.out.println(test);
                 //for(int i = 0 ; i<;i++){
