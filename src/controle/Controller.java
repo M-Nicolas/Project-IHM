@@ -1,7 +1,6 @@
 package controle;
 
 import java.util.ArrayList;
-import java.util.Observer;
 
 import modele.Actor;
 import modele.Director;
@@ -10,7 +9,6 @@ import modele.Genre;
 import modele.Manager;
 import vue.Affichage;
 import vue.Creation;
-import vue.Edition;
 import vue.Fenetre;
 
 public class Controller {

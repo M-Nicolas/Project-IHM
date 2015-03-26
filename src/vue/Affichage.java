@@ -18,7 +18,6 @@ import javax.swing.SwingConstants;
 
 import controle.Controller;
 import controle.Launch;
-import modele.Film;
 
 public class Affichage extends Fenetre{
     private JFrame frame = new JFrame();
