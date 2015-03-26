@@ -16,7 +16,7 @@ import org.jdom.output.*;
  * @author Brel Christian <brel@polytech.unice.fr>
  * @version 05/06/2009
  */
-public class Film implements Observer{
+public class Film{
 
     private String id;
     private String title;
@@ -613,9 +613,4 @@ public class Film implements Observer{
 
         return returnString;
     }
-
-	@Override
-	public void update(Observable o, Object arg) {
-		System.out.println("OBSERVER");
-	}
 }

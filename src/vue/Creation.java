@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -27,7 +29,7 @@ import javax.swing.SwingConstants;
 import controle.Controller;
 import controle.Launch;
 
-public class Creation extends Fenetre{
+public class Creation extends Fenetre implements Observer{
 	private Controller controller;
     private JFrame frame = new JFrame();
     private JScrollPane scroll = new JScrollPane();
@@ -211,8 +213,8 @@ public class Creation extends Fenetre{
         	    String titre = tit.getText();
         	    System.out.println(tit.getText());
 
-                String realisateur ="tmp";//TODO CHANGER
-                //System.out.println(reali.getText());
+                String realisateur =(String) reali.getSelectedItem();//TODO CHANGER
+                //System.out.println("##### :"+realisateur);
                 String test = act.getSelectedValue();
                 System.out.println(test);
                 //for(int i = 0 ; i<;i++){
@@ -373,4 +375,11 @@ public class Creation extends Fenetre{
         frame.pack();
         frame.setVisible(true);
     }
+
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("OBSERVABLE DECLENCHE");
+		frame.setVisible(false);
+        frame.dispose();
+	}
 }

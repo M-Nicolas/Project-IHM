@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import fr.inria.acacia.corese.api.*;
 import fr.inria.acacia.corese.exceptions.EngineException;
@@ -11,7 +12,7 @@ import fr.inria.acacia.corese.exceptions.EngineException;
  * @author Brel Christian <brel@polytech.unice.fr>
  * @version 05/06/2009
  */
-public class Manager implements IManager {
+public class Manager extends Observable implements IManager {
 
     public EngineFactory ef;
 	public IEngine engine;
@@ -164,6 +165,8 @@ public class Manager implements IManager {
     public boolean addFilm(Film film) {
         if(Film.add(engine, film, false)) {
             this.reloadEngine();
+            setChanged();
+            notifyObservers();
             return true;
         }
         return false;

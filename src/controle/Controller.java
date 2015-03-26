@@ -1,6 +1,7 @@
 package controle;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 import modele.Actor;
 import modele.Director;
@@ -97,7 +98,7 @@ public class Controller {
      * Ouvre une nouvelle fenetre Creation.
      */
     public void create() {
-        new Creation();
+        manager.addObserver(new Creation());
     }
     
     /** 
