@@ -107,9 +107,11 @@ public class Creation extends Fenetre{
         scroll.add(res);
         scrollPane.add(act);
         scrollPane2.add(act2);
+        scrollPane3.add(paneglob);
         scroll.setPreferredSize(new Dimension(300, 150));
         scrollPane.setPreferredSize(new Dimension(150, 100));
         scrollPane2.setPreferredSize(new Dimension(150,100));
+        scrollPane3.setPreferredSize(new Dimension(600,500));
         
         CreateListener listener = new CreateListener();
         creer.addActionListener(listener);
@@ -119,7 +121,7 @@ public class Creation extends Fenetre{
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
         addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
-        scrollPane3.add(paneglob);
+        
         constraining(affiche, titre, realisateur, acteurs, genre, duree, resume);
         
         scroll.setViewportView(res);
