@@ -1,7 +1,6 @@
 package vue;
 
 import java.awt.Checkbox;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,8 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.AbstractButton;
-import javax.swing.ActionMap;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -64,7 +62,7 @@ public class Creation extends Fenetre{
     	
     	controller = Launch.getController();
     	
-        JLabel affiche = new JLabel("affiche");
+
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
         JLabel acteurs = new JLabel("Avec :");
@@ -81,9 +79,7 @@ public class Creation extends Fenetre{
         MouseAdapter mouseAdapt = new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-                if(e.getSource() == aff && aff.getText().equals("image/edge.jpg")){
-                    aff.setText("");
-                }
+
                 if(e.getSource() == tit && tit.getText().equals("Titre")){
                     tit.setText("");
                 }
@@ -99,7 +95,7 @@ public class Creation extends Fenetre{
             }
         };
 
-        aff.addMouseListener(mouseAdapt);
+
         tit.addMouseListener(mouseAdapt);
         reali.addMouseListener(mouseAdapt);
         gen.addMouseListener(mouseAdapt);
@@ -109,9 +105,11 @@ public class Creation extends Fenetre{
         scroll.add(res);
         scrollPane.add(act);
         scrollPane2.add(act2);
+        scrollPane3.add(paneglob);
         scroll.setPreferredSize(new Dimension(300, 150));
         scrollPane.setPreferredSize(new Dimension(150, 100));
         scrollPane2.setPreferredSize(new Dimension(150,100));
+        scrollPane3.setPreferredSize(new Dimension(600,500));
         
         CreateListener listener = new CreateListener();
         creer.addActionListener(listener);
@@ -120,9 +118,9 @@ public class Creation extends Fenetre{
         createGenrePanel();
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
-        addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
-        scrollPane3.add(paneglob);
-        constraining(affiche, titre, realisateur, acteurs, genre, duree, resume);
+        addToPane(titre, realisateur, acteurs, genre, duree, resume);
+        
+        constraining(titre, realisateur, acteurs, genre, duree, resume);
         
         scroll.setViewportView(res);
         scrollPane.setViewportView(act);
@@ -183,7 +181,7 @@ public class Creation extends Fenetre{
      * @param duree
      * @param resume
      */
-    private void addToPane(JLabel affiche, JLabel titre, JLabel realisateur,
+    private void addToPane(JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         paneglob.add(titre);
         paneglob.add(tit);
@@ -210,8 +208,7 @@ public class Creation extends Fenetre{
         	if(e.getSource() == creer) {
         	    String titre = tit.getText();
         	    System.out.println(tit.getText());
-                String affiche = aff.getText();
-                System.out.println(aff.getText());
+
                 String realisateur =reali.getText();
                 System.out.println(reali.getText());
                 String test = act.getSelectedValue();
@@ -359,10 +356,7 @@ public class Creation extends Fenetre{
         layout.putConstraint(SpringLayout.NORTH, resume,5,SpringLayout.SOUTH,dur);
         layout.putConstraint(SpringLayout.WEST, scroll,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, scroll,5,SpringLayout.SOUTH,dur);
-        layout.putConstraint(SpringLayout.NORTH, affiche,5,SpringLayout.SOUTH, scroll);
-        layout.putConstraint(SpringLayout.WEST, aff,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, aff,5,SpringLayout.SOUTH,scroll);
-        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,affiche);
+        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,scroll);
     }
     /**
      * Crée la frame.
