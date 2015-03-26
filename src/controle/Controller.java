@@ -298,5 +298,28 @@ public class Controller {
         }
         return resume;
     }
+    /**
+     * Regarde si le genre proposé est bien présent dans le film.
+     * @param genre
+     * @param id
+     * @return
+     */
+    public boolean checkGenre(String genre, String id) {
+        boolean bool = false;
+        ArrayList<Film> list = manager.getAllFilms();
+        Film film = null;
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+                film = list.get(i);
+            }
+        }
+        String[] liste = getGenreList(film);
+        for (int i = 0; i < liste.length - 1; i++) {
+            if (liste[i].equals(genre)) {
+                bool = true;
+            }
+        }
+        return bool;
+    }
 }
 
