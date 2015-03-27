@@ -3,11 +3,15 @@ package vue;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -21,10 +25,12 @@ import controle.Controller;
 import controle.Launch;
 
 public class Affichage extends Fenetre{
+    private String id;
     private JFrame frame = new JFrame();
     private SpringLayout layout = new SpringLayout();
     private JPanel paneglob = new JPanel();
     private JPanel panemiddle = new JPanel();
+    private JPanel panesouth = new JPanel();
     
     private JLabel affiche;
     private JLabel titre;
@@ -34,17 +40,20 @@ public class Affichage extends Fenetre{
     private JLabel dur;
     private JTextArea resume;
     private Controller controller;
+    private JButton editer = new JButton("Edition");
     
     
     /**
      * Constructeur de la classe Affichage qui crée la frame demandé.
      */
     public Affichage(String idFilm) {
+        id = idFilm;
     	
     	controller = Launch.getController();
     	
         paneglob.setLayout(new BorderLayout());
         panemiddle.setLayout(layout);
+        panesouth.setLayout(new FlowLayout());
         
         Font gras = new Font("Ubuntu", Font.BOLD, 12);
         Font plain = new Font("Ubuntu", Font.PLAIN, 12);
@@ -53,6 +62,7 @@ public class Affichage extends Fenetre{
         JLabel genre = new JLabel("Genre :");
         JLabel duree = new JLabel("Durée :");
         
+        editer.addActionListener(new AffichageListener());
         initialiseFilm(idFilm);
         gererTitre();
         gererAct();
@@ -119,7 +129,9 @@ public class Affichage extends Fenetre{
     private void addPane() {
         panemiddle.add(affiche);
         paneglob.add(panemiddle,BorderLayout.CENTER);
-        paneglob.add(resume, BorderLayout.PAGE_END);
+        panesouth.add(resume);
+        panesouth.add(editer);
+        paneglob.add(panesouth, BorderLayout.PAGE_END);
     }
     
     private void generateFrame() {
@@ -149,5 +161,14 @@ public class Affichage extends Fenetre{
         dur = new JLabel(controller.getFilmLength(idFilm));
         
         resume = new JTextArea(controller.getSynopsis(idFilm));
+    }
+    
+    private class AffichageListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            if (event.getSource() == editer) {
+                //controller.editer(id);
+            }
+        }
+        
     }
 }
