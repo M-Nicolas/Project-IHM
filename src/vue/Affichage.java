@@ -3,6 +3,7 @@ package vue;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,7 @@ public class Affichage extends Fenetre{
     private SpringLayout layout = new SpringLayout();
     private JPanel paneglob = new JPanel();
     private JPanel panemiddle = new JPanel();
+    private JPanel panesouth = new JPanel();
     
     private JLabel affiche;
     private JLabel titre;
@@ -37,7 +39,7 @@ public class Affichage extends Fenetre{
     private JLabel dur;
     private JTextArea resume;
     private Controller controller;
-    private JButton editer;
+    private JButton editer = new JButton("Edition");
     
     
     /**
@@ -50,6 +52,7 @@ public class Affichage extends Fenetre{
     	
         paneglob.setLayout(new BorderLayout());
         panemiddle.setLayout(layout);
+        panesouth.setLayout(new FlowLayout());
         
         Font gras = new Font("Ubuntu", Font.BOLD, 12);
         Font plain = new Font("Ubuntu", Font.PLAIN, 12);
@@ -125,8 +128,9 @@ public class Affichage extends Fenetre{
     private void addPane() {
         panemiddle.add(affiche);
         paneglob.add(panemiddle,BorderLayout.CENTER);
-        paneglob.add(resume, BorderLayout.PAGE_END);
-        paneglob.add(editer, BorderLayout.PAGE_END);
+        panesouth.add(resume);
+        panesouth.add(editer);
+        paneglob.add(panesouth, BorderLayout.PAGE_END);
     }
     
     private void generateFrame() {
@@ -159,11 +163,9 @@ public class Affichage extends Fenetre{
     }
     
     private class AffichageListener implements ActionListener {
-
-        @Override
         public void actionPerformed(ActionEvent event) {
             if (event.getSource() == editer) {
-                controller.editer(id);
+                //controller.editer(id);
             }
         }
         
