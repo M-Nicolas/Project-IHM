@@ -317,23 +317,23 @@ public class Controller {
      */
     public String[] getActorNotInMovieList(String id) {
         String[] actorInMovieList = getActorInMovieList(id);
-        String[] allActorList = getAllActor();
-        String[] actorNotInMovieList = new String[allActorList.length
-                                                  - actorInMovieList.length +2];
-        int j = 0;
-        for (String actor : allActorList) {
-            boolean temp = true;
-            for (int i = 0; i < actorInMovieList.length; i++) {
-                if (actorInMovieList[i] == actor)
-                    temp = false;
-            }
-            if (temp) {
-                actorNotInMovieList[j] = actor;
-                j++;
-            }
-                
+        ArrayList<String> actorInMovieList2 = new ArrayList<String>();
+        for (String actor : actorInMovieList) {
+            actorInMovieList2.add(actor);
         }
-        return actorNotInMovieList;
+        String[] allActorList = getAllActor();
+        ArrayList<String> actorNotInMovieList = new ArrayList<String>();
+        for (String actor : allActorList) {
+            if (!actorInMovieList2.contains(actor))
+                actorNotInMovieList.add(actor);
+        }
+        String[] returnList = new String[actorNotInMovieList.size()];
+        int i = 0;
+        for (String actor : actorNotInMovieList) {
+            returnList[i] = actor;
+            i++;
+        }
+        return returnList;
     }
     
     /**
