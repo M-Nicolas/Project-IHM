@@ -114,59 +114,6 @@ public class Controller {
     }
     
     /**
-     * Retourne le lien vers la pochette du film
-     * @param film
-     * @return URL
-     */
-    public String getURL(Film film) {
-        String name = film.getTitle();
-        char[] affi2 = name.toCharArray();
-        String URL = "";
-        for (int i = 0; i <affi2.length; i++) {
-            if (affi2[i] == ' ') {
-            } else {
-                URL+=Character.toLowerCase(affi2[i]);
-            }
-        }
-        return "resources/posters/"+ URL + ".jpg";
-    }
-    
-    /**
-     * Retourne le titre du film
-     * @param film
-     * @return Title
-     */
-    public String getName(Film film) {
-        return film.getTitle();
-    }
-    
-    /**
-     * Retourne le Directeur du film
-     * @param film
-     * @return Director Name
-     */
-    public String getDirector(Film film) {
-        Director director = film.getDirector();
-        return director.getFirstname() + " " +director.getLastname();
-    }
-    
-    /**
-     * Retourne un tableau contenant la liste des acteurs
-     * @param film
-     * @return Array with the actors names
-     */
-    public String[] getActorList(Film film) {
-        ArrayList<Actor> liste = film.getActors();
-        String[] list = new String[liste.size()];
-        for (int i = 0; i<liste.size(); i++) {
-            list[i] = liste.get(i).getFirstname() + " "
-                    + liste.get(i).getLastname();
-        }
-        return list;
-    }
-    
-    
-    /**
      * Retourne un tableau contenant la liste des genre
      * @param film
      * @return Array with the Genres
@@ -178,25 +125,6 @@ public class Controller {
             list[i] = genreList.get(i).getLabelFr();
         }
         return list;
-    }
-    
-    /**
-     * Retourne la durée du film au format hh mm
-     * @param film
-     * @return film length
-     */
-    public String getFilmLength(Film film) {
-        int duree = film.getRuntime();
-        return (duree/60)+"h "+(duree - (duree/60)*60);
-    }
-    
-    /**
-     * Retourne le résumé du film
-     * @param film
-     * @return film's synopsis
-     */
-    public String getSynopsis(Film film) {
-        return film.getSynopsis();
     }
     
     /**
@@ -261,126 +189,52 @@ public class Controller {
      * @return
      */
     public String getTitre(String id) {
-        ArrayList<Film> list = manager.getAllFilms();
-        String title = null;
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-                title = list.get(i).getTitle();
-            }
-        }
-        return title;
+        Film film = searchFilmByID(id);
+        return film.getTitle();
     }
     
     public String getAffiche(String id) {
-        ArrayList<Film> list = manager.getAllFilms();
-        String affiche = null;
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-            	affiche = list.get(i).getPoster();
-            }
-        }
-        return affiche;
+        Film film = searchFilmByID(id);
+        return film.getPoster();
     }
     
     public String getDirector(String id) {
-    	ArrayList<Film> list = manager.getAllFilms();
-        String director = null;
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-            	director = list.get(i).getDirector().getFirstname()+" "+list.get(i).getDirector().getLastname();
-            }
-        }
-        return director;
+        Film film = searchFilmByID(id);
+        return film.getDirector().getFirstname()+" "+film.getDirector().getLastname();
     }
     
     public String[] getActorList(String id) {
-    	ArrayList<Film> list = manager.getAllFilms();
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-            	String[] actors = new String[list.get(i).getActors().size()];
-            	int j=0;
-            	for (Actor actor : list.get(i).getActors()) {
-            		actors[j] = actor.getFirstname()+" "+actor.getLastname();
-            		j++;
-				}
-            	return actors;
-            }
+        Film film = searchFilmByID(id);
+        int j = 0;
+        String[] actors = new String[film.getActors().size()];
+        for (Actor actor : film.getActors()) {
+            actors[j] = actor.getFirstname()+" "+actor.getLastname();
+            j++;
         }
-        return null;
+        return actors;
     }
     
     public String[] getGenreList(String id) {
-    	ArrayList<Film> list = manager.getAllFilms();
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-            	String[] genres = new String[list.get(i).getGenres().size()];
-            	int j=0;
-            	for (Genre genre : list.get(i).getGenres()) {
-            		genres[j] = genre.getLabelFr();
-            		j++;
-				}
-            	return genres;
-            }
+        Film film = searchFilmByID(id);
+        String[] genres = new String[film.getGenres().size()];
+        int j=0;
+        for (Genre genre : film.getGenres()) {
+            genres[j] = genre.getLabelFr();
+            j++;
         }
-        return null;
+        return genres;
     }
     
     public String getFilmLength(String id) {
-    	ArrayList<Film> list = manager.getAllFilms();
-    	String duree = "";
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-            	
-            	duree = ""+(list.get(i).getRuntime()/60)+"h"+(list.get(i).getRuntime()%60);
-            }
-        }
-        return duree;
+        Film film = searchFilmByID(id);
+        return (film.getRuntime()/60)+"h"+(film.getRuntime()%60);
     }
     
     public String getSynopsis(String id) {
-    	ArrayList<Film> list = manager.getAllFilms();
-    	String resume = "";
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-            	resume = list.get(i).getSynopsis();
-            }
-        }
-        return resume;
+        Film film = searchFilmByID(id);
+    	return film.getSynopsis();
     }
     
-    
-    
-    /**
-     * Cherche le realisateur d'un film donné par id.
-     * @param id
-     * @return
-     */
-    public String getRealisateur(String id) {
-        ArrayList<Film> list = manager.getAllFilms();
-        String reali = null;
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-                reali = list.get(i).getDirector().getLastname()+" "+list.get(i).getDirector().getFirstname();
-            }
-        }
-        return reali;
-    }
-    
-    /**
-     * Cherche le résumé d'un film donné par id.
-     * @param id
-     * @return
-     */
-    public String getResume(String id) {
-        ArrayList<Film> list = manager.getAllFilms();
-        String resume = null;
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-                resume = list.get(i).getSynopsis();
-            }
-        }
-        return resume;
-    }
     /**
      * Regarde si le genre proposé est bien présent dans le film.
      * @param genre
@@ -389,13 +243,7 @@ public class Controller {
      */
     public boolean checkGenre(String genre, String id) {
         boolean bool = false;
-        ArrayList<Film> list = manager.getAllFilms();
-        Film film = null;
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (list.get(i).getId() == id) {
-                film = list.get(i);
-            }
-        }
+        Film film = searchFilmByID(id);
         String[] liste = getGenreList(film);
         for (int i = 0; i < liste.length - 1; i++) {
             if (liste[i].equals(genre)) {
@@ -403,6 +251,22 @@ public class Controller {
             }
         }
         return bool;
+    }
+    
+    /**
+     * Renvoie le film d'id donnée.
+     * @param id
+     * @return
+     */
+    public Film searchFilmByID(String id) {
+        ArrayList<Film> list = manager.getAllFilms();
+        Film film = null;
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).getId() == id) {
+                film = list.get(i);
+            }
+        }
+        return film;
     }
 }
 

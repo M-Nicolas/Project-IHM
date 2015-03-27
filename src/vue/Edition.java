@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -57,8 +55,8 @@ public class Edition extends Fenetre{
     public Edition(String id) {
         controller = Launch.getController();
         tit = new JTextField(controller.getTitre(id));
-        reali = new JTextField(controller.getRealisateur(id));
-        res = new JTextArea(controller.getResume(id));
+        reali = new JTextField(controller.getDirector(id));
+        res = new JTextArea(controller.getSynopsis(id));
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
         JLabel acteurs = new JLabel("Avec :");
@@ -68,9 +66,14 @@ public class Edition extends Fenetre{
         
         paneglob.setLayout(layout);
         
-        String[] actorsNames = controller.getAllActor();
-        act.setListData(actorsNames);
-        actID = controller.getAllActorID();
+        String[] actorsName = controller.setActorNotInMovieList(id);
+        String[] actorsNamesInMovie = controller.setActorList(id);
+        act.setListData(actorsName);
+        act2.setListData(actorsNamesInMovie);
+        actID = controller.getActorNotInMovieID();
+        actID2 = controller.getActorInMovieID();
+        
+        
 
         scroll.add(res);
         scrollPane.add(act);
