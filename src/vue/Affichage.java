@@ -129,8 +129,12 @@ public class Affichage extends Fenetre{
     }
     
     private void initialiseFilm(String idFilm) {
-        
-        affiche = new JLabel(new ImageIcon(controller.getAffiche(idFilm)));
+    	ImageIcon tmpIcon = new ImageIcon(controller.getAffiche(idFilm));
+    	if(tmpIcon.getIconHeight()==-1 || tmpIcon.getIconWidth()==-1){
+    		tmpIcon = new ImageIcon("resources/posters/unknownPoster.jpg");
+    	}
+    	
+        affiche = new JLabel(tmpIcon);
         
         titre = new JLabel(controller.getAffiche(idFilm));
         

@@ -41,7 +41,7 @@ public class Creation extends Fenetre implements Observer{
     private JScrollPane scrollPane2 = new JScrollPane();
     private JScrollPane scrollPane3 = new JScrollPane();
     
-    private JTextField aff = new JTextField("image/edge.jpg", 15);
+    private JTextField aff = new JTextField("resources/posters/unknownPoster.jpg", 15);
     private JTextField tit = new JTextField("Titre", 15);
     private JComboBox<String> reali = new JComboBox<String>();
     private JList<String> act = new JList<String>();
@@ -233,7 +233,7 @@ public class Creation extends Fenetre implements Observer{
 						}
 				}
                 
-                controller.CreerFilm(titre, realisateur, aff.getText(), actID2, genres, duree, res.getText());
+                controller.CreerFilm(titre, aff.getText(), realisateur, actID2, genres, duree, res.getText());
         	}
         	
         	if (e.getSource() == add) {

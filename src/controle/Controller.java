@@ -3,6 +3,8 @@ package controle;
 import java.util.ArrayList;
 import java.util.Observer; // Ne pas enlever!
 
+import javax.swing.JOptionPane;
+
 import modele.Actor;
 import modele.Director;
 import modele.Film;
@@ -245,9 +247,11 @@ public class Controller {
     	Film newfilm = new Film("", titre, dir, actorNewFilm, genreNewFilm, duree,affiche, resume);
     	if(manager.addFilm(newfilm)){
     		System.out.println("##AJOUT FILM OK##");
+    		JOptionPane.showMessageDialog(null, "AJOUT FILM OK");
     	}
     	else{
     		System.out.println("##FAIL##");
+    		JOptionPane.showMessageDialog(null, "AJOUT FILM FAIL");
     	}
     }
    
