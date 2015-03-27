@@ -163,7 +163,7 @@ public class Affichage extends Fenetre{
         @Override
         public void actionPerformed(ActionEvent event) {
             if (event.getSource() == editer) {
-                Controller.editer(id);
+                controller.editer(id);
             }
         }
         
