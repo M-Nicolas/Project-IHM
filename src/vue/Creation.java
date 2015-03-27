@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,9 +16,11 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -41,7 +44,7 @@ public class Creation extends Fenetre implements Observer{
     private JScrollPane scrollPane2 = new JScrollPane();
     private JScrollPane scrollPane3 = new JScrollPane();
     
-    private JTextField aff = new JTextField("resources/posters/unknownPoster.jpg", 15);
+    private JFilePicker aff = new JFilePicker("ici","browse");
     private JTextField tit = new JTextField("Titre", 15);
     private JComboBox<String> reali = new JComboBox<String>();
     private JList<String> act = new JList<String>();
@@ -79,12 +82,17 @@ public class Creation extends Fenetre implements Observer{
         act.setListData(actorsNames);
         actID = controller.getAllActorID();
         
+        aff.setMode(JFilePicker.MODE_OPEN);
+        aff.addFileTypeFilter(".jpg", "JPEG Images");
+        aff.getFileChooser().setCurrentDirectory(new File("C:/"));
+        
         MouseAdapter mouseAdapt = new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-                if (e.getSource() == aff && aff.getText().equals("Affiche")) {
+                /*
+            	if (e.getSource() == aff && aff.getText().equals("Affiche")) {
                     aff.setText("");
-                }
+                }*/
                 if(e.getSource() == tit && tit.getText().equals("Titre")){
                     tit.setText("");
                 }
@@ -213,17 +221,16 @@ public class Creation extends Fenetre implements Observer{
         	    String titre = tit.getText();
         	    System.out.println(tit.getText());
 
-                String realisateur =(String) reali.getSelectedItem();//TODO CHANGER
-                //System.out.println("##### :"+realisateur);
-                String test = act.getSelectedValue();
-                System.out.println(test);
-                //for(int i = 0 ; i<;i++){
-                //System.out.println();act2
-                //System.out.println(gen.getText());
-                //System.out.println(dur.getText());
-                int duree = Integer.parseInt(dur.getText());
-                System.out.println(duree+3);
-                //System.out.println(res.getText());
+                String realisateur =(String) reali.getSelectedItem();
+
+                int duree=0;
+                try{
+                	duree = Integer.parseInt(dur.getText());
+                }
+                catch(NumberFormatException numberE){
+                	JOptionPane.showMessageDialog(null, "Veuillez rentrer le nombre de minutes dans le champs duree");
+                	return;//Arrete la methode
+                }
                 
                 ArrayList<String> genres = new ArrayList<String>(); 
                 for (Component jb : gen.getComponents()) {
@@ -233,7 +240,7 @@ public class Creation extends Fenetre implements Observer{
 						}
 				}
                 
-                controller.CreerFilm(titre, aff.getText(), realisateur, actID2, genres, duree, res.getText());
+                controller.CreerFilm(titre, aff.getSelectedFilePath(), realisateur, actID2, genres, duree, res.getText());
         	}
         	
         	if (e.getSource() == add) {
