@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
@@ -129,9 +128,8 @@ public class Affichage extends Fenetre{
     private void addPane() {
         panemiddle.add(affiche);
         paneglob.add(panemiddle,BorderLayout.CENTER);
-        panesouth.add(resume);
-        panesouth.add(editer);
-        paneglob.add(panesouth, BorderLayout.PAGE_END);
+        paneglob.add(resume,BorderLayout.SOUTH);
+        paneglob.add(editer,BorderLayout.EAST);
     }
     
     private void generateFrame() {
