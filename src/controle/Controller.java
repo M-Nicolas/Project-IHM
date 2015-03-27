@@ -268,5 +268,80 @@ public class Controller {
         }
         return film;
     }
+    
+    /**
+     * Crée la liste d'acteur présent dans le film.
+     * @param id
+     * @return
+     */
+    public String[] getActorInMovieList(String id) {
+        Film film = searchFilmByID(id);
+        String[] actorList = new String[film.getActors().size()];
+        int i = 0;
+        for (Actor actor : film.getActors()) {
+            actorList[i] = actor.getFirstname()+" "+actor.getLastname();
+            i++;
+        }
+        return actorList;
+    }
+    
+    /**
+     * Crée la liste des IDs des acteurs dans le film.
+     * @param id
+     * @return
+     */
+    public ArrayList<String> getActorInMovieID(String id) {
+        Film film = searchFilmByID(id);
+        ArrayList<String> actorIDList = new ArrayList<String>();
+        for (Actor actor : film.getActors()) {
+            actorIDList.add(actor.getId());
+        }
+        return actorIDList;
+    }
+    
+    /**
+     * Crée un tableau contenant les acteur n'ayant pas participé au film.
+     * @param id
+     * @return
+     */
+    public String[] getActorNotInMovieList(String id) {
+        String[] actorInMovieList = getActorInMovieList(id);
+        String[] allActorList = getAllActor();
+        String[] actorNotInMovieList = new String[allActorList.length
+                                                  - actorInMovieList.length];
+        int j = 0;
+        for (String actor : allActorList) {
+            boolean temp = true;
+            for (int i = 0; i < actorInMovieList.length; i++) {
+                if (actorInMovieList[i] != actor)
+                    temp = false;
+            }
+            if (temp == false) {
+                actorNotInMovieList[j] = actor;
+                j++;
+            }
+                
+        }
+        return actorNotInMovieList;
+    }
+    
+    /**
+     * Crée une ArrayList<String> contennant les ids des acteur n'ayant pas
+     * participé au film.
+     * @param id
+     * @return
+     */
+    public ArrayList<String> getActorNotInMovieID(String id) {
+        ArrayList<String> actorInMovieList = getActorInMovieID(id);
+        ArrayList<String> allActorList = getAllActorID();
+        ArrayList<String> actorNotInMovieID = new ArrayList<String>();
+        for (String actor : allActorList) {
+            if (!actorInMovieList.contains(actor)) {
+                actorNotInMovieID.add(actor);
+            }
+                
+        }
+        return actorNotInMovieID;
+    }
 }
 

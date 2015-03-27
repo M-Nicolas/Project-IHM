@@ -66,12 +66,12 @@ public class Edition extends Fenetre{
         
         paneglob.setLayout(layout);
         
-        String[] actorsName = controller.setActorNotInMovieList(id);
-        String[] actorsNamesInMovie = controller.setActorList(id);
+        String[] actorsName = controller.getActorNotInMovieList(id);
+        String[] actorsNamesInMovie = controller.getActorInMovieList(id);
         act.setListData(actorsName);
         act2.setListData(actorsNamesInMovie);
-        actID = controller.getActorNotInMovieID();
-        actID2 = controller.getActorInMovieID();
+        actID = controller.getActorNotInMovieID(id);
+        actID2 = controller.getActorInMovieID(id);
         
         
 
