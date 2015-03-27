@@ -56,10 +56,13 @@ public class Edition extends Fenetre implements Observer{
     private JButton creer = new JButton("Editer");
     private JButton retour = new JButton("Retour");
     
+    private String AncienID;
+    
     /**
      * Constructeur de la classe Edition.
      */
     public Edition(String id) {
+    	this.AncienID=id;
         controller = Launch.getController();
         tit = new JTextField(controller.getTitre(id));
         String[] realisatorName = controller.getAllRealisator();
@@ -71,7 +74,7 @@ public class Edition extends Fenetre implements Observer{
         reali = new JComboBox<String>(realisatorName);
         reali.setSelectedIndex(index);
         res = new JTextArea(controller.getSynopsis(id));
-        dur = new JTextField(controller.getFilmLength(id));
+        dur = new JTextField(controller.getFilmLengthMin(id));
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
         JLabel acteurs = new JLabel("Avec :");
@@ -227,7 +230,7 @@ public class Edition extends Fenetre implements Observer{
         layout.putConstraint(SpringLayout.NORTH, scroll,5,SpringLayout.SOUTH,dur);
         layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,scroll);
         layout.putConstraint(SpringLayout.WEST, retour,5,SpringLayout.EAST,creer);
-        layout.putConstraint(SpringLayout.NORTH, retour,5,SpringLayout.SOUTH,aff);
+        layout.putConstraint(SpringLayout.NORTH, retour,5,SpringLayout.SOUTH,scroll);
     }
     
     /**
@@ -235,7 +238,9 @@ public class Edition extends Fenetre implements Observer{
      */
     private void generateFrame() {
         frame.setContentPane(paneglob);
-        frame.setMinimumSize(new Dimension(600, 500));
+        frame.setTitle("Page Edition");
+        frame.setMinimumSize(new Dimension(850, 600));
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
@@ -248,7 +253,7 @@ public class Edition extends Fenetre implements Observer{
         frame.dispose();
     }
     private class CreateListener implements ActionListener{
-        public void actionPerformed(ActionEvent e) {
+    	public void actionPerformed(ActionEvent e) {
             if(e.getSource() == creer) {
                 String titre = tit.getText();
                 System.out.println(tit.getText());
@@ -271,8 +276,9 @@ public class Edition extends Fenetre implements Observer{
                             genres.add(tmp.getText());
                         }
                 }
-                
-                controller.CreerFilm(titre, aff.getSelectedFilePath(), realisateur, actID2, genres, duree, res.getText());
+                System.out.println(actID2.toString());
+                controller.deleteMovie(controller.getTitre(AncienID));
+                controller.CreerFilm(titre, aff.getSelectedFilePath(), realisateur, actID2, genres, duree, res.getText(), "E");
             }
             
             if (e.getSource() == add) {
@@ -363,7 +369,8 @@ public class Edition extends Fenetre implements Observer{
                 } catch (IndexOutOfBoundsException e1) {}
             }
             if (e.getSource() == retour) {
-                //TODO : Faire la méthode pour fermer la fenetre.
+            	frame.setVisible(false);
+                frame.dispose();
             }
         }
     }

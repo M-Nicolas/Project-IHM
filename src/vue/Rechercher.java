@@ -13,6 +13,7 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -27,7 +28,7 @@ public class Rechercher extends Fenetre implements Observer{
     private JButton search = new JButton("Rechercher");
     private JList<String> list = new JList<String>();
     private JTextField searchArea = new JTextField("Film à chercher");
-    private JButton validate = new JButton("Valider");
+    private JButton validate = new JButton("Voir fiche du film");
     private JButton supprimer = new JButton("Supprimer");
     private Controller controller;
     private JButton create = new JButton("Créer un nouveau Film");
@@ -87,6 +88,7 @@ public class Rechercher extends Fenetre implements Observer{
         
         
         frame.setContentPane(paneGlob);
+        frame.setTitle("Page Recherche");
         frame.setMinimumSize(new Dimension(400, 225));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -104,6 +106,9 @@ public class Rechercher extends Fenetre implements Observer{
     public String selectedMovie() {
         ListModel<String> model = list.getModel();
         int selectedIndex = list.getSelectedIndex();
+        if(selectedIndex==-1){
+        	return null;
+        }
         return (String) model.getElementAt(selectedIndex);
     }
     
@@ -115,13 +120,21 @@ public class Rechercher extends Fenetre implements Observer{
             if (e.getSource() == search) {
                 list.setListData(controller.search(searchArea.getText()));
             } else if (e.getSource() == validate) {
-                controller.resultOfSearch(selectedMovie());
+            	if(selectedMovie()!=null){
+                	controller.resultOfSearch(selectedMovie());
+            	}
+            	else{
+            		JOptionPane.showMessageDialog(null, "Veuillez Choisir un film dans la liste avant de cliquer sur voir la fiche.");
+            	}
             } else if (e.getSource() == create) {
                 controller.create();
             } else if(e.getSource() == supprimer ){
-            	controller.deleteMovie(selectedMovie());
+            	int reply = JOptionPane.showConfirmDialog(null, "Voullez-vous vraiment supprimer le film selectionne?", "Suppression?",  JOptionPane.YES_NO_OPTION);
+            	if(reply==JOptionPane.YES_OPTION){
+            		controller.deleteMovie(selectedMovie());
+            	}
             } else if(e.getSource() == quitter) {
-                //TODO : Faire la méthode qui quitte l'application.
+                System.exit(0);//Quitte l'application.
             }
             
         }

@@ -161,7 +161,7 @@ public class Controller {
      * @param duree
      * @param resume
      */
-    public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,ArrayList<String> genres,int duree,String resume){
+    public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,ArrayList<String> genres,int duree,String resume, String mode){
     	ArrayList<Director> d = manager.getAllDirectors();
     	Director dir = d.get(0);
     	
@@ -181,18 +181,55 @@ public class Controller {
 			}
 		}
     	
-    	//ArrayList<Actor> a = manager.getAllActors();
-    	//ArrayList<Genre> g = manager.getAllGenres();
     	Film newfilm = new Film("", titre, dir, actorNewFilm, genreNewFilm, duree,affiche, resume);
     	if(manager.addFilm(newfilm)){
-    		System.out.println("##AJOUT FILM OK##");
-    		JOptionPane.showMessageDialog(null, "AJOUT FILM OK");
+    		if(mode=="C"){
+    			JOptionPane.showMessageDialog(null, "L'ajout du film c'est bien passé");
+    		}
+    		else{
+    			JOptionPane.showMessageDialog(null, "La mise a jour du film c'est bien passé");
+    		}
     	}
     	else{
-    		System.out.println("##FAIL##");
-    		JOptionPane.showMessageDialog(null, "AJOUT FILM FAIL");
+    		if(mode=="C"){
+    			JOptionPane.showMessageDialog(null, "Probleme avec l'ajout du film veuillez reessayer.");
+    		}
+    		else{
+    			JOptionPane.showMessageDialog(null, "Probleme avec la mise a jour du film veuillez reessayer.");
+    		}
     	}
     }
+    
+    public void updateFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,ArrayList<String> genres,int duree,String resume){
+    	ArrayList<Director> d = manager.getAllDirectors();
+    	Director dir = d.get(0);
+    	
+    	ArrayList<Actor> actorNewFilm = new ArrayList<Actor>();
+    	ArrayList<Actor> tmpAct = manager.getAllActors();
+    	for (Actor actor : tmpAct) {
+			if(acteurs.contains(actor.getId())){
+				actorNewFilm.add(actor);
+			}
+		}
+    	
+    	ArrayList<Genre> genreNewFilm =  new ArrayList<Genre>();
+    	
+    	for (Genre g : manager.getAllGenres()) {
+			if(genres.contains(g.getLabelFr())){
+				genreNewFilm.add(g);
+			}
+		}
+    	
+    	Film newfilm = new Film("", titre, dir, actorNewFilm, genreNewFilm, duree,affiche, resume);
+    	
+    	if(manager.updateFilm(newfilm)){
+    		JOptionPane.showMessageDialog(null, "La mise a jour du film c'est bien passé");
+    	}
+    	else{
+    		JOptionPane.showMessageDialog(null, "Probleme avec la mise a jour du film veuillez reessayer.");
+    	}
+    }
+    
    
     /**
      * cherche un film par id. retourne null si l'id est mauvais.
@@ -239,6 +276,11 @@ public class Controller {
     public String getFilmLength(String id) {
         Film film = searchFilmByID(id);
         return (film.getRuntime()/60)+"h"+(film.getRuntime()%60);
+    }
+    
+    public String getFilmLengthMin(String id) {
+        Film film = searchFilmByID(id);
+        return ""+film.getRuntime();
     }
     
     public String getSynopsis(String id) {

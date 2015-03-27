@@ -138,6 +138,7 @@ public class Affichage extends Fenetre{
     
     private void generateFrame() {
         frame.setContentPane(paneglob);
+        frame.setTitle("Page Du Film");
         frame.setMinimumSize(new Dimension(400, 300));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -151,7 +152,7 @@ public class Affichage extends Fenetre{
     	
         affiche = new JLabel(tmpIcon);
         
-        titre = new JLabel(controller.getAffiche(idFilm));
+        titre = new JLabel(controller.getTitre(idFilm));
         
         reali = new JLabel(controller.getDirector(idFilm));
         
@@ -171,7 +172,8 @@ public class Affichage extends Fenetre{
                 controller.editer(id);
             }
             if (event.getSource() == retour) {
-                //TODO méthode de fermeture de la page
+            	frame.setVisible(false);
+                frame.dispose();
             }
         }
         

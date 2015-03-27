@@ -238,8 +238,7 @@ public class Creation extends Fenetre implements Observer{
 							genres.add(tmp.getText());
 						}
 				}
-                
-                controller.CreerFilm(titre, aff.getSelectedFilePath(), realisateur, actID2, genres, duree, res.getText());
+                controller.CreerFilm(titre, aff.getSelectedFilePath(), realisateur, actID2, genres, duree, res.getText(), "C");
         	}
         	
         	if (e.getSource() == add) {
@@ -330,7 +329,8 @@ public class Creation extends Fenetre implements Observer{
                 } catch (IndexOutOfBoundsException e1) {}
         	}
         	if (e.getSource() == retour) {
-        	    //TODO : Faire la méthode pour fermer la fenetre.
+        		frame.setVisible(false);
+                frame.dispose();
         	}
         }
     }
@@ -381,6 +381,7 @@ public class Creation extends Fenetre implements Observer{
      */
     private void generateFrame() {
         frame.setContentPane(paneglob);
+        frame.setTitle("Page Creation");
         frame.setMinimumSize(new Dimension(850, 600));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
