@@ -377,7 +377,8 @@ public class Creation extends Fenetre implements Observer{
      */
     private void generateFrame() {
         frame.setContentPane(paneglob);
-        frame.setMinimumSize(new Dimension(600, 500));
+        frame.setMinimumSize(new Dimension(850, 600));
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
