@@ -1,17 +1,22 @@
 package vue;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,7 +29,7 @@ import javax.swing.plaf.ActionMapUIResource;
 import controle.Controller;
 import controle.Launch;
 
-public class Edition extends Fenetre{
+public class Edition extends Fenetre implements Observer{
     private Controller controller;
     private JFrame frame = new JFrame();
     private JScrollPane scroll = new JScrollPane();
@@ -36,8 +41,9 @@ public class Edition extends Fenetre{
     private JScrollPane scrollPane2 = new JScrollPane();
     private JScrollPane scrollPane3 = new JScrollPane();
     
-    private JTextField tit;
-    private JTextField reali;
+    private JFilePicker aff = new JFilePicker("ici","browse");
+    private JTextField tit = new JTextField("Titre", 15);
+    private JComboBox<String> reali = new JComboBox<String>();
     private JList<String> act = new JList<String>();
     private ArrayList<String> actID = new ArrayList<String>();
     private JList<String> act2 = new JList<String>();
@@ -46,8 +52,8 @@ public class Edition extends Fenetre{
     private JButton rm = new JButton("enlever");
     private JPanel gen = new JPanel();
     private JTextField dur = new JTextField("durée", 15);
-    private JTextArea res;
-    private JButton creer = new JButton("Créer");
+    private JTextArea res = new JTextArea("Résumé");
+    private JButton creer = new JButton("Editer");
     
     /**
      * Constructeur de la classe Edition.
@@ -55,7 +61,16 @@ public class Edition extends Fenetre{
     public Edition(String id) {
         controller = Launch.getController();
         tit = new JTextField(controller.getTitre(id));
-        reali = new JTextField(controller.getDirector(id));
+        
+        String[] realisatorName = controller.getAllRealisator();
+        int index = 0;
+        for (int i = 0; i< realisatorName.length; i++) {
+            if (realisatorName[i] == controller.getDirector(id))
+                index = i;
+        }
+        reali = new JComboBox<String>(realisatorName);
+        reali.setSelectedIndex(index);
+        
         res = new JTextArea(controller.getSynopsis(id));
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
@@ -72,8 +87,6 @@ public class Edition extends Fenetre{
         act2.setListData(actorsNamesInMovie);
         actID = controller.getActorNotInMovieID(id);
         actID2 = controller.getActorInMovieID(id);
-        
-        
 
         scroll.add(res);
         scrollPane.add(act);
@@ -175,23 +188,86 @@ public class Edition extends Fenetre{
         paneglob.add(creer);
     }
     
+    /**
+     * Contraint les component de la fenetre.
+     * @param affiche
+     * @param titre
+     * @param realisateur
+     * @param acteurs
+     * @param genre
+     * @param duree
+     * @param resume
+     */
+    private void constraining(JLabel titre, JLabel realisateur,
+            JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
+        layout.putConstraint(SpringLayout.WEST, tit,5,SpringLayout.EAST,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, realisateur,5,SpringLayout.SOUTH,tit);
+        layout.putConstraint(SpringLayout.WEST, reali,5,SpringLayout.EAST,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, reali,5,SpringLayout.SOUTH,tit);
+        layout.putConstraint(SpringLayout.NORTH, acteurs,5,SpringLayout.SOUTH,reali);
+        layout.putConstraint(SpringLayout.WEST, scrollPane,5,SpringLayout.EAST,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, scrollPane,5,SpringLayout.SOUTH,reali);
+        layout.putConstraint(SpringLayout.WEST, add,5,SpringLayout.EAST,scrollPane);
+        layout.putConstraint(SpringLayout.NORTH, add,5,SpringLayout.SOUTH,realisateur);
+        layout.putConstraint(SpringLayout.WEST, rm,5,SpringLayout.EAST,scrollPane);
+        layout.putConstraint(SpringLayout.NORTH, rm,5,SpringLayout.SOUTH,add);
+        layout.putConstraint(SpringLayout.WEST, scrollPane2, 5, SpringLayout.EAST, add);
+        layout.putConstraint(SpringLayout.NORTH, scrollPane2,5,SpringLayout.SOUTH,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, genre,5,SpringLayout.SOUTH,scrollPane);
+        layout.putConstraint(SpringLayout.WEST, gen,5,SpringLayout.EAST,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, gen,5,SpringLayout.SOUTH,scrollPane);
+        layout.putConstraint(SpringLayout.NORTH, duree,5,SpringLayout.SOUTH,gen);
+        layout.putConstraint(SpringLayout.WEST, dur,5,SpringLayout.EAST,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, dur,5,SpringLayout.SOUTH,gen);
+        layout.putConstraint(SpringLayout.NORTH, resume,5,SpringLayout.SOUTH,dur);
+        layout.putConstraint(SpringLayout.WEST, scroll,5,SpringLayout.EAST,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, scroll,5,SpringLayout.SOUTH,dur);
+        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,scroll);
+    }
+    
+    /**
+     * Crée la frame.
+     */
+    private void generateFrame() {
+        frame.setContentPane(paneglob);
+        frame.setMinimumSize(new Dimension(600, 500));
+        frame.setLocationRelativeTo(null);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("OBSERVABLE DECLENCHE");
+        frame.setVisible(false);
+        frame.dispose();
+    }
     private class CreateListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == creer) {
                 String titre = tit.getText();
                 System.out.println(tit.getText());
-                String realisateur =reali.getText();
-                System.out.println(reali.getText());
-                String test = act.getSelectedValue();
-                System.out.println(test);
-                //for(int i = 0 ; i<;i++){
-                //System.out.println();act2
-                //System.out.println(gen.getText());
-                System.out.println(dur.getText());
-                int duree = 120;
-                System.out.println(res.getText());
-                //controller.CreerFilm(titre, affiche, realisateur,
-                        //actID2, gen.getText(), duree, res.getText());
+
+                String realisateur =(String) reali.getSelectedItem();
+
+                int duree=0;
+                try{
+                    duree = Integer.parseInt(dur.getText());
+                }
+                catch(NumberFormatException numberE){
+                    JOptionPane.showMessageDialog(null, "Veuillez rentrer le nombre de minutes dans le champs duree");
+                    return;//Arrete la methode
+                }
+                
+                ArrayList<String> genres = new ArrayList<String>(); 
+                for (Component jb : gen.getComponents()) {
+                        JCheckBox tmp =(JCheckBox)jb;
+                        if(tmp.isSelected()){
+                            genres.add(tmp.getText());
+                        }
+                }
+                
+                controller.CreerFilm(titre, aff.getSelectedFilePath(), realisateur, actID2, genres, duree, res.getText());
             }
             
             if (e.getSource() == add) {
@@ -282,52 +358,5 @@ public class Edition extends Fenetre{
                 } catch (IndexOutOfBoundsException e1) {}
             }
         }
-    }
-    
-    /**
-     * Contraint les component de la fenetre.
-     * @param affiche
-     * @param titre
-     * @param realisateur
-     * @param acteurs
-     * @param genre
-     * @param duree
-     * @param resume
-     */
-    private void constraining(JLabel titre, JLabel realisateur,
-            JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
-        layout.putConstraint(SpringLayout.WEST, tit,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, realisateur,5,SpringLayout.SOUTH,tit);
-        layout.putConstraint(SpringLayout.WEST, reali,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, reali,5,SpringLayout.SOUTH,tit);
-        layout.putConstraint(SpringLayout.NORTH, acteurs,5,SpringLayout.SOUTH,reali);
-        layout.putConstraint(SpringLayout.WEST, scrollPane,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, scrollPane,5,SpringLayout.SOUTH,reali);
-        layout.putConstraint(SpringLayout.WEST, add,5,SpringLayout.EAST,scrollPane);
-        layout.putConstraint(SpringLayout.NORTH, add,5,SpringLayout.SOUTH,realisateur);
-        layout.putConstraint(SpringLayout.WEST, rm,5,SpringLayout.EAST,scrollPane);
-        layout.putConstraint(SpringLayout.NORTH, rm,5,SpringLayout.SOUTH,add);
-        layout.putConstraint(SpringLayout.WEST, scrollPane2, 5, SpringLayout.EAST, add);
-        layout.putConstraint(SpringLayout.NORTH, scrollPane2,5,SpringLayout.SOUTH,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, genre,5,SpringLayout.SOUTH,scrollPane);
-        layout.putConstraint(SpringLayout.WEST, gen,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, gen,5,SpringLayout.SOUTH,scrollPane);
-        layout.putConstraint(SpringLayout.NORTH, duree,5,SpringLayout.SOUTH,gen);
-        layout.putConstraint(SpringLayout.WEST, dur,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, dur,5,SpringLayout.SOUTH,gen);
-        layout.putConstraint(SpringLayout.NORTH, resume,5,SpringLayout.SOUTH,dur);
-        layout.putConstraint(SpringLayout.WEST, scroll,5,SpringLayout.EAST,realisateur);
-        layout.putConstraint(SpringLayout.NORTH, scroll,5,SpringLayout.SOUTH,dur);
-        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,scroll);
-    }
-    /**
-     * Crée la frame.
-     */
-    private void generateFrame() {
-        frame.setContentPane(paneglob);
-        frame.setMinimumSize(new Dimension(600, 500));
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
     }
 }

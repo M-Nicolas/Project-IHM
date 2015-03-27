@@ -5,9 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -20,6 +23,7 @@ import controle.Controller;
 import controle.Launch;
 
 public class Affichage extends Fenetre{
+    private String id;
     private JFrame frame = new JFrame();
     private SpringLayout layout = new SpringLayout();
     private JPanel paneglob = new JPanel();
@@ -33,12 +37,14 @@ public class Affichage extends Fenetre{
     private JLabel dur;
     private JTextArea resume;
     private Controller controller;
+    private JButton editer;
     
     
     /**
      * Constructeur de la classe Affichage qui crée la frame demandé.
      */
     public Affichage(String idFilm) {
+        id = idFilm;
     	
     	controller = Launch.getController();
     	
@@ -52,6 +58,7 @@ public class Affichage extends Fenetre{
         JLabel genre = new JLabel("Genre :");
         JLabel duree = new JLabel("Durée :");
         
+        editer.addActionListener(new AffichageListener());
         initialiseFilm(idFilm);
         gererTitre();
         gererAct();
@@ -119,6 +126,7 @@ public class Affichage extends Fenetre{
         panemiddle.add(affiche);
         paneglob.add(panemiddle,BorderLayout.CENTER);
         paneglob.add(resume, BorderLayout.PAGE_END);
+        paneglob.add(editer, BorderLayout.PAGE_END);
     }
     
     private void generateFrame() {
@@ -148,5 +156,16 @@ public class Affichage extends Fenetre{
         dur = new JLabel(controller.getFilmLength(idFilm));
         
         resume = new JTextArea(controller.getSynopsis(idFilm));
+    }
+    
+    private class AffichageListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            if (event.getSource() == editer) {
+                Controller.editer(id);
+            }
+        }
+        
     }
 }
