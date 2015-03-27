@@ -61,7 +61,6 @@ public class Edition extends Fenetre implements Observer{
     public Edition(String id) {
         controller = Launch.getController();
         tit = new JTextField(controller.getTitre(id));
-        
         String[] realisatorName = controller.getAllRealisator();
         int index = 0;
         for (int i = 0; i< realisatorName.length; i++) {
@@ -70,8 +69,8 @@ public class Edition extends Fenetre implements Observer{
         }
         reali = new JComboBox<String>(realisatorName);
         reali.setSelectedIndex(index);
-        
         res = new JTextArea(controller.getSynopsis(id));
+        dur = new JTextField(controller.getFilmLength(id));
         JLabel titre = new JLabel("Titre :");
         JLabel realisateur = new JLabel("Réalisateur :");
         JLabel acteurs = new JLabel("Avec :");
@@ -122,8 +121,9 @@ public class Edition extends Fenetre implements Observer{
         ArrayList<String> genres = controller.getAllGenre();
         for (int i = 0; i<genres.size(); i++) {
             JCheckBox temporary = new JCheckBox(genres.get(i));
-            if (controller.checkGenre(genres.get(i), id))
+            if (controller.checkGenre(genres.get(i), id)) {
                 temporary.setSelected(true);
+            }
             temporary.setFocusable(true);
             gen.add(temporary);
             gen.setLayout(new GridLayout(5,4));

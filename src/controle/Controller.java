@@ -256,12 +256,11 @@ public class Controller {
         boolean bool = false;
         Film film = searchFilmByID(id);
         String[] liste = getGenreList(film);
-        for (int i = 0; i < liste.length - 1; i++) {
-            if (liste[i].equals(genre)) {
-                bool = true;
-            }
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < liste.length; i++) {
+            list.add(liste[i]);
         }
-        return bool;
+        return list.contains(genre);
     }
     
     /**
@@ -350,7 +349,6 @@ public class Controller {
             if (!actorInMovieList.contains(actor)) {
                 actorNotInMovieID.add(actor);
             }
-                
         }
         return actorNotInMovieID;
     }
