@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,13 +21,14 @@ import javax.swing.SpringLayout;
 
 import controle.Controller;
 
-public class Rechercher extends Fenetre{
+public class Rechercher extends Fenetre implements Observer{
     private JFrame frame = new JFrame();
     private JPanel paneGlob = new JPanel();
     private JButton search = new JButton("Rechercher");
     private JList<String> list = new JList<String>();
     private JTextField searchArea = new JTextField("Film à chercher");
     private JButton validate = new JButton("Valider");
+    private JButton supprimer = new JButton("Supprimer");
     private Controller controller;
     private JButton create = new JButton("Créer un nouveau Film");
     private JScrollPane scrollPane = new JScrollPane();
@@ -43,6 +46,7 @@ public class Rechercher extends Fenetre{
         paneGlob.add(scrollPane);
         scrollPane.setPreferredSize(new Dimension(150, 100));
         paneGlob.add(validate);
+        paneGlob.add(supprimer);
         paneGlob.add(create);
         
         ActionListener listener = new SearchListener();
@@ -66,6 +70,7 @@ public class Rechercher extends Fenetre{
         
         search.addActionListener(listener);
         validate.addActionListener(listener);
+        supprimer.addActionListener(listener);
         create.addActionListener(listener);
         searchArea.addMouseListener(new MouseAdapter(){
             @Override
@@ -111,6 +116,9 @@ public class Rechercher extends Fenetre{
             } else if (e.getSource() == create) {
                 controller.create();
             }
+            else if(e.getSource() == supprimer ){
+            	controller.deleteMovie(selectedMovie());
+            }
             
         }
     }
@@ -125,5 +133,13 @@ public class Rechercher extends Fenetre{
         liste.add(scrollPane);
         liste.add(validate);
         liste.add(create);
+        
+        liste.add(supprimer);
     }
+
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("OBSERVABLE DECLENCHE");
+		list.setListData(controller.search(""));//recharge la vue
+	}
 }

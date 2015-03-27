@@ -25,6 +25,7 @@ public class Controller {
     public Controller(ArrayList<Fenetre> list) {
         this.list = list;
         manager = new Manager();
+        manager.addObserver((Observer) list.get(0));
     }
     
     /**
@@ -100,6 +101,11 @@ public class Controller {
      */
     public void create() {
         manager.addObserver(new Creation());
+    }
+    
+    public void deleteMovie(String title){
+    	Film film = getFilm(title);
+    	manager.deleteFilm(searchFilmByID(film.getId()));
     }
     
     /** 

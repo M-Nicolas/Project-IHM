@@ -181,6 +181,8 @@ public class Manager extends Observable implements IManager {
     public boolean deleteFilm(Film film) {
         if(Film.delete(engine, film)) {
             this.reloadEngine();
+            setChanged();
+            notifyObservers();
             return true;
         }
         return false;
