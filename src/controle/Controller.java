@@ -12,6 +12,7 @@ import modele.Genre;
 import modele.Manager;
 import vue.Affichage;
 import vue.Creation;
+import vue.Edition;
 import vue.Fenetre;
 
 public class Controller {
@@ -101,6 +102,10 @@ public class Controller {
      */
     public void create() {
         manager.addObserver(new Creation());
+    }
+    
+    public void editer(String id){
+    	manager.addObserver(new Edition(id));
     }
     
     public void deleteMovie(String title){
@@ -267,7 +272,7 @@ public class Controller {
     public Film searchFilmByID(String id) {
         ArrayList<Film> list = manager.getAllFilms();
         Film film = null;
-        for (int i = 0; i < list.size() - 1; i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getId() == id) {
                 film = list.get(i);
             }
@@ -314,15 +319,15 @@ public class Controller {
         String[] actorInMovieList = getActorInMovieList(id);
         String[] allActorList = getAllActor();
         String[] actorNotInMovieList = new String[allActorList.length
-                                                  - actorInMovieList.length];
+                                                  - actorInMovieList.length +2];
         int j = 0;
         for (String actor : allActorList) {
             boolean temp = true;
             for (int i = 0; i < actorInMovieList.length; i++) {
-                if (actorInMovieList[i] != actor)
+                if (actorInMovieList[i] == actor)
                     temp = false;
             }
-            if (temp == false) {
+            if (temp) {
                 actorNotInMovieList[j] = actor;
                 j++;
             }

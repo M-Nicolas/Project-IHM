@@ -166,7 +166,7 @@ public class Affichage extends Fenetre{
     private class AffichageListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             if (event.getSource() == editer) {
-                //controller.editer(id);
+                controller.editer(id);
             }
         }
         
