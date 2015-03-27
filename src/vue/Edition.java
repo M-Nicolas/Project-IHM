@@ -54,6 +54,7 @@ public class Edition extends Fenetre implements Observer{
     private JTextField dur = new JTextField("durée", 15);
     private JTextArea res = new JTextArea("Résumé");
     private JButton creer = new JButton("Editer");
+    private JButton retour = new JButton("Retour");
     
     /**
      * Constructeur de la classe Edition.
@@ -100,6 +101,7 @@ public class Edition extends Fenetre implements Observer{
         creer.addActionListener(listener);
         add.addActionListener(listener);
         rm.addActionListener(listener);
+        retour.addActionListener(listener);
         createGenrePanel(id);
         
         initiate(titre, realisateur, acteurs, genre, duree, resume);
@@ -186,6 +188,7 @@ public class Edition extends Fenetre implements Observer{
         paneglob.add(resume);
         paneglob.add(scroll);
         paneglob.add(creer);
+        paneglob.add(retour);
     }
     
     /**
@@ -223,6 +226,8 @@ public class Edition extends Fenetre implements Observer{
         layout.putConstraint(SpringLayout.WEST, scroll,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, scroll,5,SpringLayout.SOUTH,dur);
         layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,scroll);
+        layout.putConstraint(SpringLayout.WEST, retour,5,SpringLayout.EAST,creer);
+        layout.putConstraint(SpringLayout.NORTH, retour,5,SpringLayout.SOUTH,aff);
     }
     
     /**
@@ -356,6 +361,9 @@ public class Edition extends Fenetre implements Observer{
                     }
                     act2.setListData(liste);
                 } catch (IndexOutOfBoundsException e1) {}
+            }
+            if (e.getSource() == retour) {
+                //TODO : Faire la méthode pour fermer la fenetre.
             }
         }
     }

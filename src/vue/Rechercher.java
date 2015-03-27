@@ -32,6 +32,7 @@ public class Rechercher extends Fenetre implements Observer{
     private Controller controller;
     private JButton create = new JButton("Créer un nouveau Film");
     private JScrollPane scrollPane = new JScrollPane();
+    private JButton quitter = new JButton("Quitter");
     
     /**
      * Créer une instance de Rechercher.
@@ -48,6 +49,7 @@ public class Rechercher extends Fenetre implements Observer{
         paneGlob.add(validate);
         paneGlob.add(supprimer);
         paneGlob.add(create);
+        paneGlob.add(quitter);
         
         ActionListener listener = new SearchListener();
         ArrayList<Component> liste = new ArrayList<Component>();
@@ -72,6 +74,7 @@ public class Rechercher extends Fenetre implements Observer{
         validate.addActionListener(listener);
         supprimer.addActionListener(listener);
         create.addActionListener(listener);
+        quitter.addActionListener(listener);
         searchArea.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
@@ -84,7 +87,7 @@ public class Rechercher extends Fenetre implements Observer{
         
         
         frame.setContentPane(paneGlob);
-        frame.setMinimumSize(new Dimension(400, 200));
+        frame.setMinimumSize(new Dimension(400, 225));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,9 +118,10 @@ public class Rechercher extends Fenetre implements Observer{
                 controller.resultOfSearch(selectedMovie());
             } else if (e.getSource() == create) {
                 controller.create();
-            }
-            else if(e.getSource() == supprimer ){
+            } else if(e.getSource() == supprimer ){
             	controller.deleteMovie(selectedMovie());
+            } else if(e.getSource() == quitter) {
+                //TODO : Faire la méthode qui quitte l'application.
             }
             
         }
@@ -135,6 +139,7 @@ public class Rechercher extends Fenetre implements Observer{
         liste.add(create);
         
         liste.add(supprimer);
+        liste.add(quitter);
     }
 
 	@Override

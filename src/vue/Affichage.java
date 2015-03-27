@@ -3,8 +3,8 @@ package vue;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +40,7 @@ public class Affichage extends Fenetre{
     private JTextArea resume;
     private Controller controller;
     private JButton editer = new JButton("Edition");
-    
+    private JButton retour = new JButton("Retour");
     
     /**
      * Constructeur de la classe Affichage qui crée la frame demandé.
@@ -52,7 +52,7 @@ public class Affichage extends Fenetre{
     	
         paneglob.setLayout(new BorderLayout());
         panemiddle.setLayout(layout);
-        panesouth.setLayout(new FlowLayout());
+        panesouth.setLayout(new GridLayout(2,1));
         
         Font gras = new Font("Ubuntu", Font.BOLD, 12);
         Font plain = new Font("Ubuntu", Font.PLAIN, 12);
@@ -61,7 +61,9 @@ public class Affichage extends Fenetre{
         JLabel genre = new JLabel("Genre :");
         JLabel duree = new JLabel("Durée :");
         
-        editer.addActionListener(new AffichageListener());
+        AffichageListener listener = new AffichageListener();
+        editer.addActionListener(listener);
+        retour.addActionListener(listener);
         initialiseFilm(idFilm);
         gererTitre();
         gererAct();
@@ -129,7 +131,9 @@ public class Affichage extends Fenetre{
         panemiddle.add(affiche);
         paneglob.add(panemiddle,BorderLayout.CENTER);
         paneglob.add(resume,BorderLayout.SOUTH);
-        paneglob.add(editer,BorderLayout.EAST);
+        panesouth.add(editer);
+        panesouth.add(retour);
+        paneglob.add(panesouth, BorderLayout.EAST);
     }
     
     private void generateFrame() {
@@ -165,6 +169,9 @@ public class Affichage extends Fenetre{
         public void actionPerformed(ActionEvent event) {
             if (event.getSource() == editer) {
                 controller.editer(id);
+            }
+            if (event.getSource() == retour) {
+                //TODO méthode de fermeture de la page
             }
         }
         

@@ -57,6 +57,7 @@ public class Creation extends Fenetre implements Observer{
     private JTextField dur = new JTextField("durée", 15);
     private JTextArea res = new JTextArea("Résumé");
     private JButton creer = new JButton("Créer");
+    private JButton retour = new JButton("Retour");
     
     /**
      * Constructeur de la classe Edition.
@@ -89,10 +90,6 @@ public class Creation extends Fenetre implements Observer{
         MouseAdapter mouseAdapt = new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-                /*
-            	if (e.getSource() == aff && aff.getText().equals("Affiche")) {
-                    aff.setText("");
-                }*/
                 if(e.getSource() == tit && tit.getText().equals("Titre")){
                     tit.setText("");
                 }
@@ -125,6 +122,7 @@ public class Creation extends Fenetre implements Observer{
         creer.addActionListener(listener);
         add.addActionListener(listener);
         rm.addActionListener(listener);
+        retour.addActionListener(listener);
         createGenrePanel();
         
         initiate(affiche, titre, realisateur, acteurs, genre, duree, resume);
@@ -213,6 +211,7 @@ public class Creation extends Fenetre implements Observer{
         paneglob.add(resume);
         paneglob.add(scroll);
         paneglob.add(creer);
+        paneglob.add(retour);
     }
     
     private class CreateListener implements ActionListener{
@@ -330,6 +329,9 @@ public class Creation extends Fenetre implements Observer{
                     act2.setListData(liste);
                 } catch (IndexOutOfBoundsException e1) {}
         	}
+        	if (e.getSource() == retour) {
+        	    //TODO : Faire la méthode pour fermer la fenetre.
+        	}
         }
     }
     
@@ -371,6 +373,8 @@ public class Creation extends Fenetre implements Observer{
         layout.putConstraint(SpringLayout.WEST, aff,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, aff,5,SpringLayout.SOUTH,scroll);
         layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,aff);
+        layout.putConstraint(SpringLayout.WEST, retour,5,SpringLayout.EAST,creer);
+        layout.putConstraint(SpringLayout.NORTH, retour,5,SpringLayout.SOUTH,aff);
     }
     /**
      * Crée la frame.
