@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -91,6 +92,10 @@ public class Edition extends Fenetre implements Observer{
         act2.setListData(actorsNamesInMovie);
         actID = controller.getActorNotInMovieID(id);
         actID2 = controller.getActorInMovieID(id);
+        
+        aff.setMode(JFilePicker.MODE_OPEN);
+        aff.addFileTypeFilter(".jpg", "JPEG Images");
+        aff.getFileChooser().setCurrentDirectory(new File("C:/"));
 
         scroll.add(res);
         scrollPane.add(act);

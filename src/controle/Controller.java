@@ -164,10 +164,10 @@ public class Controller {
     	ArrayList<Director> d = manager.getAllDirectors();
     	Director dir = null;
     	for (Director director : d) {
-			if(realisateur.equals(director.getFirstname()+" "+director.getLastname())){
-				dir=director;
-			}
-		}
+    	    if(realisateur.equals(director.getFirstname()+" "+director.getLastname())){
+    	        dir=director;
+    	    }
+    	}
     	
     	ArrayList<Actor> actorNewFilm = new ArrayList<Actor>();
     	ArrayList<Actor> tmpAct = manager.getAllActors();
