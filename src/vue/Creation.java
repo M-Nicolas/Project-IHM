@@ -217,7 +217,6 @@ public class Creation extends Fenetre implements Observer{
         public void actionPerformed(ActionEvent e) {
         	if(e.getSource() == creer) {
         	    String titre = tit.getText();
-
                 String realisateur =(String) reali.getSelectedItem();
 
                 int duree=0;
