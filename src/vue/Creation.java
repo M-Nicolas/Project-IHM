@@ -193,7 +193,6 @@ public class Creation extends Fenetre implements Observer{
     private void addToPane(JLabel affiche, JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         paneglob.add(affiche);
-        paneglob.add(aff);
         paneglob.add(titre);
         paneglob.add(tit);
         paneglob.add(aff);

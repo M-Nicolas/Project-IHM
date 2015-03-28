@@ -63,6 +63,7 @@ public class Edition extends Fenetre implements Observer{
      */
     public Edition(String id) {
     	this.AncienID=id;
+    	JLabel affiche = new JLabel("Affiche");
         controller = Launch.getController();
         tit = new JTextField(controller.getTitre(id));
         String[] realisatorName = controller.getAllRealisator();
@@ -107,9 +108,9 @@ public class Edition extends Fenetre implements Observer{
         retour.addActionListener(listener);
         createGenrePanel(id);
         
-        initiate(titre, realisateur, acteurs, genre, duree, resume);
-        addToPane(titre, realisateur, acteurs, genre, duree, resume);
-        constraining(titre, realisateur, acteurs, genre, duree, resume);
+        initiate(affiche, titre, realisateur, acteurs, genre, duree, resume);
+        addToPane(affiche, titre, realisateur, acteurs, genre, duree, resume);
+        constraining(affiche, titre, realisateur, acteurs, genre, duree, resume);
         
         scroll.setViewportView(res);
         scrollPane.setViewportView(act);
@@ -144,8 +145,8 @@ public class Edition extends Fenetre implements Observer{
      * @param duree
      * @param resume
      */
-    private void initiate(JLabel titre, JLabel realisateur, JLabel acteurs,
-            JLabel genre, JLabel duree, JLabel resume) {
+    private void initiate(JLabel affiche, JLabel titre, JLabel realisateur,
+            JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         titre.setHorizontalAlignment(SwingConstants.CENTER);
         realisateur.setFont(gras);
         reali.setFont(plain);
@@ -173,8 +174,10 @@ public class Edition extends Fenetre implements Observer{
      * @param duree
      * @param resume
      */
-    private void addToPane(JLabel titre, JLabel realisateur,
+    private void addToPane(JLabel affiche, JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
+        paneglob.add(affiche);
+        paneglob.add(aff);
         paneglob.add(titre);
         paneglob.add(tit);
         paneglob.add(realisateur);
@@ -204,7 +207,7 @@ public class Edition extends Fenetre implements Observer{
      * @param duree
      * @param resume
      */
-    private void constraining(JLabel titre, JLabel realisateur,
+    private void constraining(JLabel affiche, JLabel titre, JLabel realisateur,
             JLabel acteurs, JLabel genre, JLabel duree, JLabel resume) {
         layout.putConstraint(SpringLayout.WEST, tit,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, realisateur,5,SpringLayout.SOUTH,tit);
@@ -228,9 +231,12 @@ public class Edition extends Fenetre implements Observer{
         layout.putConstraint(SpringLayout.NORTH, resume,5,SpringLayout.SOUTH,dur);
         layout.putConstraint(SpringLayout.WEST, scroll,5,SpringLayout.EAST,realisateur);
         layout.putConstraint(SpringLayout.NORTH, scroll,5,SpringLayout.SOUTH,dur);
-        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,scroll);
+        layout.putConstraint(SpringLayout.NORTH, affiche,5,SpringLayout.SOUTH,scroll);
+        layout.putConstraint(SpringLayout.WEST, aff,5,SpringLayout.EAST,realisateur);
+        layout.putConstraint(SpringLayout.NORTH, aff,5,SpringLayout.SOUTH,scroll);
+        layout.putConstraint(SpringLayout.NORTH, creer,5,SpringLayout.SOUTH,aff);
         layout.putConstraint(SpringLayout.WEST, retour,5,SpringLayout.EAST,creer);
-        layout.putConstraint(SpringLayout.NORTH, retour,5,SpringLayout.SOUTH,scroll);
+        layout.putConstraint(SpringLayout.NORTH, retour,5,SpringLayout.SOUTH,aff);
     }
     
     /**
