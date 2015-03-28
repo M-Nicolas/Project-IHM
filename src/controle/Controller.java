@@ -162,7 +162,12 @@ public class Controller {
      */
     public void CreerFilm(String titre,String affiche,String realisateur,ArrayList<String> acteurs,ArrayList<String> genres,int duree,String resume, String mode){
     	ArrayList<Director> d = manager.getAllDirectors();
-    	Director dir = d.get(0);
+    	Director dir = null;
+    	for (Director director : d) {
+			if(realisateur.equals(director.getFirstname()+" "+director.getLastname())){
+				dir=director;
+			}
+		}
     	
     	ArrayList<Actor> actorNewFilm = new ArrayList<Actor>();
     	ArrayList<Actor> tmpAct = manager.getAllActors();

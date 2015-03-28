@@ -90,6 +90,7 @@ public class Rechercher extends Fenetre implements Observer{
         frame.setContentPane(paneGlob);
         frame.setTitle("Page Recherche");
         frame.setMinimumSize(new Dimension(400, 225));
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
