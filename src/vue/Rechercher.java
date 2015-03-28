@@ -131,7 +131,12 @@ public class Rechercher extends Fenetre implements Observer{
             } else if(e.getSource() == supprimer ){
             	int reply = JOptionPane.showConfirmDialog(null, "Voullez-vous vraiment supprimer le film selectionne?", "Suppression?",  JOptionPane.YES_NO_OPTION);
             	if(reply==JOptionPane.YES_OPTION){
-            		controller.deleteMovie(selectedMovie());
+            		if(selectedMovie()!=null){
+            			controller.deleteMovie(selectedMovie());
+            		}
+            		else{
+            			JOptionPane.showMessageDialog(null, "Veuillez Choisir un film dans la liste avant de cliquer sur Supprimer.");
+            		}
             	}
             } else if(e.getSource() == quitter) {
                 System.exit(0);//Quitte l'application.
@@ -157,7 +162,6 @@ public class Rechercher extends Fenetre implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("OBSERVABLE DECLENCHE");
 		list.setListData(controller.search(""));//recharge la vue
 	}
 }

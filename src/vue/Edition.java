@@ -41,7 +41,7 @@ public class Edition extends Fenetre implements Observer{
     private JScrollPane scrollPane2 = new JScrollPane();
     private JScrollPane scrollPane3 = new JScrollPane();
     
-    private JFilePicker aff = new JFilePicker("ici","browse");
+    private JFilePicker aff = new JFilePicker("","browse");
     private JTextField tit = new JTextField("Titre", 15);
     private JComboBox<String> reali = new JComboBox<String>();
     private JList<String> act = new JList<String>();
@@ -248,7 +248,6 @@ public class Edition extends Fenetre implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("OBSERVABLE DECLENCHE");
         frame.setVisible(false);
         frame.dispose();
     }
@@ -256,7 +255,6 @@ public class Edition extends Fenetre implements Observer{
     	public void actionPerformed(ActionEvent e) {
             if(e.getSource() == creer) {
                 String titre = tit.getText();
-                System.out.println(tit.getText());
 
                 String realisateur =(String) reali.getSelectedItem();
 
@@ -276,7 +274,6 @@ public class Edition extends Fenetre implements Observer{
                             genres.add(tmp.getText());
                         }
                 }
-                System.out.println(actID2.toString());
                 controller.deleteMovie(controller.getTitre(AncienID));
                 controller.CreerFilm(titre, aff.getSelectedFilePath(), realisateur, actID2, genres, duree, res.getText(), "E");
             }

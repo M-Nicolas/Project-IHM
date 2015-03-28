@@ -9,6 +9,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +25,7 @@ import javax.swing.SwingConstants;
 import controle.Controller;
 import controle.Launch;
 
-public class Affichage extends Fenetre{
+public class Affichage extends Fenetre implements Observer{
     private String id;
     private JFrame frame = new JFrame();
     private SpringLayout layout = new SpringLayout();
@@ -46,7 +48,8 @@ public class Affichage extends Fenetre{
      * Constructeur de la classe Affichage qui crée la frame demandé.
      */
     public Affichage(String idFilm) {
-        id = idFilm;
+    	
+    	id = idFilm;
     	
     	controller = Launch.getController();
     	
@@ -178,4 +181,10 @@ public class Affichage extends Fenetre{
         }
         
     }
+
+	@Override
+	public void update(Observable o, Object arg) {
+        frame.setVisible(false);
+        frame.dispose();
+	}
 }

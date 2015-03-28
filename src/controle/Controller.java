@@ -46,7 +46,6 @@ public class Controller {
         String[] list = new String[liste.size()];
         for (int i = 0; i < liste.size(); i++) {
             list[i] = liste.get(i).getTitle();
-            System.out.println(liste.get(i).getTitle());
         }
         return list;
     }
@@ -56,8 +55,8 @@ public class Controller {
      * @param title
      */
     public void resultOfSearch(String title) {
-        Film film = getFilm(title);
-        new Affichage(film.getId());
+    	Film film = getFilm(title);
+    	manager.addObserver(new Affichage(film.getId()));
     }
     
     /**
